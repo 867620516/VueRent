@@ -83,19 +83,19 @@ export default {
       let password = this.password
       // 用axios发送post请求
       /* eslint-disable */
-        // eslint-disable-next-line
-
         window.axios.post('/api/signIn', { username, password }).then(res => {
           // eslint-disable-next-line
           // 1.跳转到首页
-          this.$router.push({ path: '/index'})
+          if (res.data.username!=null){
+            let sess = window.sessionStorage;
+            let d = JSON.stringify(res.data);
+            sess.setItem('userInfo',d)
+            this.$router.push({
+              path: '/index'
+            })
+          }else { console.log("-------")}
         }).catch(() => {
           this.signFlag = true
-        })
-      },
-      haha () {
-        window.axios.get('/api/haha').then(res => {
-          console.log(res)
         })
       },
       openSignUpDialog () {

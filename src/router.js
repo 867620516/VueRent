@@ -23,6 +23,19 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import('./views/Login.vue')
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('./views/test.vue')
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: () => import('./views/Index.vue'),
+      meta: {
+        needLogin: true
+      }
     }
   ]
 })

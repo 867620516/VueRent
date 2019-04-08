@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h3>123545</h3>
     <router-view></router-view>
   </div>
 </template>
@@ -8,7 +7,18 @@
 <script>
 
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+    return {
+      activeIndex: '1',
+      activeIndex2: '1'
+    }
+  },
+  methods: {
+    handleSelect (key, keyPath) {
+      console.log(key, keyPath)
+    }
+  }
 }
 </script>
 
@@ -19,6 +29,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-left: 0px;
+  margin-right: 0px;
 }
+
 </style>
