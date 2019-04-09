@@ -19,9 +19,9 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="signUp">确 定</el-button>
-  </span>
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="signUp">确 定</el-button>
+      </span>
     </el-dialog>
     <img src="./../assets/logo.png" width="200" height="200">
     <h1>{{title}}</h1>
@@ -91,7 +91,8 @@ export default {
             let d = JSON.stringify(res.data);
             sess.setItem('userInfo',d)
             this.$router.push({
-              path: '/index'
+              path: '/index',
+              showuser: true
             })
           }else { console.log("-------")}
         }).catch(() => {
@@ -117,7 +118,7 @@ export default {
 <style scoped>
   .el-row {
     margin-bottom: 20px;
-  &:last-child {
+    &:last-child {
      margin-bottom: 0;
    }
   }
