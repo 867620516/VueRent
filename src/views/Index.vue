@@ -68,7 +68,7 @@
             <el-card :body-style="{ padding: '0px' }">
               <img src="../assets/pailide1.jpg" width=100% class="image">
               <div style="padding: 14px;">
-                <span>{{rental.itemName}}</span>
+                <span>{2}</span>
                 <div class="bottom clearfix">
                   <el-button type="text" class="button">操作按钮</el-button>
                 </div>
@@ -110,24 +110,30 @@ export default {
     return {
       inputSearch: '',
       // eslint-disable-next-line
-      showuser: (window.sessionStorage.userInfo == null) ? false : true,
-      userInfo: JSON.parse(window.sessionStorage.userInfo),
+      userInfo: null,
       rentalList: []
     }
   },
   created () {
+    this.userInfo = JSON.parse(window.sessionStorage.userInfo)
     this.searchAll()
+  },
+  computed: {
+    showUser: function () {
+      return this.userInfo != null
+    }
   },
   methods: {
     searchAll () {
       // eslint-disable-next-line
       //debugger
+      var that = this
       window.axios.post('/api/rental').then(res => {
         // eslint-disable-next-line
-        //debugger
-        console.log(res.data)
+        debugger
+        console.log(that.rentalList)
         for (let index in res.data) {
-          this.rentalList = res.data[index]
+          this.rentalList.push(res.data[index])
         }
       }).catch(() => {
         alert('cuowu')
