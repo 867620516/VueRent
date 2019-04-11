@@ -47,10 +47,13 @@
             </el-carousel>
           </el-col>
           <el-col  v-if="showuser" :span="7">
-            <el-col :span="3"><img style="margin-top: 10px;border-radius: 50%;border-style: solid;border-color: #0a0f1f;" height="60" src="../assets/defaulticon.png"></el-col>
+            <el-col :span="3">
+              <img style="margin-top: 10px;border-radius: 50%;border-style: solid;border-color: #0a0f1f;"
+                   height="60" v-bind:src=userInfo.icon></el-col>
             <el-col :span="10" :offset="2" style="margin-top: 25px">
-              <a style="font-family: '微软雅黑 Light';color: darkgray;">Hi！{{username}}，</a>
+              <a style="font-family: '微软雅黑 Light';color: darkgray;">Hi！{{userInfo.username}}，</a>
               <el-button type="text" style="font-family: '微软雅黑 Light';color: darkgray;" @click="logout">退出</el-button>
+              <el-button style="border-radius: 15px" @click="print">注册</el-button>
             </el-col>
           </el-col>
           <el-col v-else :span="7">
@@ -60,7 +63,41 @@
             <el-button style="border-radius: 15px">注册</el-button>
           </el-col>
         </el-row>
-
+        <el-row id="show">
+          <el-col :span="4" v-for="(rental,index) in rentalList" :key="index+19">
+            <el-card :body-style="{ padding: '0px' }">
+              <img src="../assets/pailide1.jpg" width=100% class="image">
+              <div style="padding: 14px;">
+                <span>{{rental.itemName}}</span>
+                <div class="bottom clearfix">
+                  <el-button type="text" class="button">操作按钮</el-button>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <!--<el-col :span="4">
+            <el-card :body-style="{ padding: '0px' }">
+              <img src="../assets/erji.jpg" width=100% class="image">
+              <div style="padding: 14px;">
+                <span>无线耳机 迷你超小</span>
+                <div class="bottom clearfix">
+                  <el-button type="text" class="button">操作按钮</el-button>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="4">
+            <el-card :body-style="{ padding: '0px' }">
+              <img src="../assets/erji.jpg" width=100% class="image">
+              <div style="padding: 14px;">
+                <span>无线耳机 迷你超小</span>
+                <div class="bottom clearfix">
+                  <el-button type="text" class="button">操作按钮</el-button>
+                </div>
+              </div>
+            </el-card>
+          </el-col>-->
+        </el-row>
       </el-main>
     </el-container>
   </div>
@@ -74,22 +111,60 @@ export default {
       inputSearch: '',
       // eslint-disable-next-line
       showuser: (window.sessionStorage.userInfo == null) ? false : true,
-      username: JSON.parse(window.sessionStorage.userInfo).username
+      userInfo: JSON.parse(window.sessionStorage.userInfo),
+      rentalList: []
     }
   },
+  created () {
+    this.searchAll()
+  },
   methods: {
+    searchAll () {
+      // eslint-disable-next-line
+      //debugger
+      window.axios.post('/api/rental').then(res => {
+        // eslint-disable-next-line
+        //debugger
+        console.log(res.data)
+        for (let index in res.data) {
+          this.rentalList = res.data[index]
+        }
+      }).catch(() => {
+        alert('cuowu')
+      })
+    },
     toLogin () {
       this.$router.push({ path: '/login' })
     },
     logout () {
       window.sessionStorage.removeItem('userInfo')
       window.location.reload()
+    },
+    print () {
+      console.log(window.sessionStorage.userInfo)
     }
   }
 }
 </script>
 
 <style scoped>
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+
+  .clearfix:after {
+    clear: both
+  }
+  #show el-col {
+    margin-right: 30px;
+    margin-bottom: 30px;
+  }
   .el-carousel__item h3 {
     color: #475669;
     font-size: 14px;
