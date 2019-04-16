@@ -23,20 +23,21 @@
     <!-- <p>共{{productlist.length}}个商品</p> -->
     <el-row class="main">
       <template v-for="item in productlist">
-        <el-col :span="7" :xs="22"  class="item hvr-float-shadow" :key="item.productclass">
+        <el-col :span="7" :xs="22"  class="item hvr-float-shadow" :key="item.id">
           <router-link
-            :to="'/product/'+item.type+'/'+item.name"
-            :key="item.productclass">
-            <img class="hvr-bob" :src="item.image" >
+            :to="'/product/1/'+item.id"
+            :key="item.id">
+            <img class="hvr-bob" src="@/assets/erji.jpg" >
           </router-link>
+          <!--<img class="hvr-bob" :src="'@/assets/'+item.imageList[0]">-->
           <div class="onpic">
-            <p v-if="item.selling" class="hot">热销中</p>
-            <p v-else class="nhot">未上市</p>
+            <p v-if="item.brandNew" class="hot">十成新</p>
+            <p v-else class="nhot">非全新</p>
           </div>
-          <h3>{{item.name}}</h3>
-          <p class="intro">{{item.desc}}</p>
-          <p class="sellnum">历史销量:<span>{{item.sellnum}}</span></p>
-          <p class="price">全国包邮价:<span :class="old">{{item.price}}</span><span class="textOld" v-if="sender">￥{{item.price * sender.zhekou * 0.1}}</span></p>
+          <h3 class="rentalName">{{item.itemName}}</h3>
+          <p class="intro">{{item.description}}</p>
+          <!--<p class="sellnum">历史销量:<span>{{item.sellnum}}</span></p>-->
+          <p class="price">租价:<span :class="old">{{item.rentalPrice}}</span><span class="interval"> /{{item.rentalInterval}}</span></p>
         </el-col>
       </template>
     </el-row>
@@ -52,8 +53,8 @@
   </div>
 </template>
 <script>
-/* import { SearchProductList } from '../../../api/api'
-import { GetProds } from '../../../api/adminApi' */
+// import { SearchProductList } from '../../../api/api'
+import { GetProds } from '../../../api/api'
 export default {
   data () {
     return {
@@ -62,10 +63,10 @@ export default {
       loading: false
     }
   },
-  /* methods: {
-    handleCurrentChange (val) {
+  methods: {
+    /* handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
-    },
+    }, */
     // 获取商品
     getprods () {
       // 获取分类列表
@@ -80,13 +81,13 @@ export default {
         }
       }
       GetProds(params).then(res => {
-        // console.log(res)
-        this.productlist = res.data.prods
+        console.log(res)
+        this.productlist = res.data
       })
     },
     // 搜索商品
     search () {
-      this.loading = true
+      /* this.loading = true
       let searchparams = {
         name: this.searchName
       }
@@ -111,9 +112,9 @@ export default {
           this.productlist = res.data
           this.searchName = ''
         }
-      })
+      }) */
     }
-  }, */
+  },
   computed: {
     sender () {
       return this.$store.getters.sender
@@ -205,8 +206,10 @@ a:hover {
 }
 
 .intro {
-  height: 90px;
-  overflow: hidden;
+  height: 60px;
+  overflow: hidden;/*超出部分隐藏*/
+  /*white-space: nowrap;!*不换行*!*/
+  text-overflow:ellipsis;/*超出部分文字以...显示*/
 }
 .intro,.price,.sellnum {
   margin: 0 15px 0 25px;
@@ -227,9 +230,18 @@ a:hover {
   color: red;
   font-size: 25px;
 }
+.interval {
+  color: dimgray;
+  font-size: 16px;
+}
 .textThr {
   // color: #290c09;
   // font-size: 20px;
   text-decoration: line-through;
 }
+  .rentalName {
+    overflow: hidden;/*超出部分隐藏*/
+    white-space: nowrap;/*不换行*/
+    text-overflow:ellipsis;/*超出部分文字以...显示*/
+  }
 </style>

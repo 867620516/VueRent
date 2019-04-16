@@ -7,26 +7,28 @@
       </el-col>
       <!-- 中间导航区域 -->
       <el-col class="main" :span="16">
-        <!--<el-menu :default-active="$route.path" class="menu" router mode="horizontal" @select="handleSelect" active-text-color="#000">
-          &lt;!&ndash; 循环写的前端路由，其中路由中有  hidden：true 的就不加入循环 &ndash;&gt;
+        <el-menu :default-active="$route.path" class="menu" router mode="horizontal" @select="handleSelect" active-text-color="#000">
+          <!-- 循环写的前端路由，其中路由中有  hidden：true 的就不加入循环 -->
           <template v-for="route in $router.options.routes[0].children" v-if="!route.hidden">
+          <!--<template v-for="route in showRouters">-->
 
-            &lt;!&ndash; 循环没有children的路由 &ndash;&gt;
+            <!-- 循环没有children的路由 -->
             <el-menu-item v-if="!route.hasChild" :key="route.path" :index="route.path">
+            <!--<el-menu-item :key="route.path" :index="route.path">-->
               <i :class="route.class"></i>
               {{ route.name }}
             </el-menu-item>
 
-            &lt;!&ndash; 循环有children的路由 &ndash;&gt;
-            &lt;!&ndash; <el-submenu v-else :index="route.path" :key="route.path">
+            <!-- 循环有children的路由 -->
+            <!--<el-submenu v-else :index="route.path" :key="route.path">
               <template slot="title">{{ route.name }}</template>
               <el-menu-item v-for="child in route.children" :index="child.path" :key="child.path">
                 {{ child.name }}
               </el-menu-item>
-            </el-submenu> &ndash;&gt;
+            </el-submenu>-->
 
           </template>
-        </el-menu>-->
+        </el-menu>
       </el-col>
       <!-- 右边用户信息以及登陆注册 -->
       <el-col :span="4" class="user">
@@ -61,26 +63,26 @@
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <!--<el-menu :default-active="$route.path" class="menu" router  @select="handleSelect" active-text-color="#000">
-                &lt;!&ndash; 循环写的前段路由，其中路由中有  hidden：true 的就不加入循环 &ndash;&gt;
+              <el-menu :default-active="$route.path" class="menu" router  @select="handleSelect" active-text-color="#000">
+                <!-- 循环写的前段路由，其中路由中有  hidden：true 的就不加入循环 -->
                 <template v-for="route in $router.options.routes[0].children" v-if="!route.hidden">
 
-                  &lt;!&ndash; 循环没有children的路由 &ndash;&gt;
+                  <!-- 循环没有children的路由 -->
                   <el-menu-item v-if="!route.hasChild" :key="route.path" :index="route.path">
                     <i :class="route.class"></i>
                     {{ route.name }}
                   </el-menu-item>
 
-                  &lt;!&ndash; 循环有children的路由 &ndash;&gt;
-                  &lt;!&ndash; <el-submenu v-else :index="route.path" :key="route.path">
+                  <!-- 循环有children的路由 -->
+                  <!-- <el-submenu v-else :index="route.path" :key="route.path">
                     <template slot="title">{{ route.name }}</template>
                     <el-menu-item v-for="child in route.children" :index="child.path" :key="child.path">
                       {{ child.name }}
                     </el-menu-item>
-                  </el-submenu> &ndash;&gt;
+                  </el-submenu> -->
 
                 </template>
-              </el-menu>-->
+              </el-menu>
             </el-dropdown-item>
 
           </el-dropdown-menu>
@@ -169,6 +171,11 @@ export default {
   },
   // 获取store的User数据
   computed: {
+    showRouters: function () {
+      return this.$router.options.routes[0].children.filter(function (router) {
+        return router.show
+      })
+    },
     user () {
       console.log(this.$store.state.user.icon)
       return this.$store.state.user
@@ -187,9 +194,10 @@ export default {
 @import '../common/less/index.less';
 @import '../common/css/init.css';
   .header {
+    margin-bottom: 80px;
     width: 100%;
     height: 60px;
-    margin: 0;
+    // margin: 0;
     background: #fff;
     position: fixed;
     top: 0;

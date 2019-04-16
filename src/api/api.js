@@ -19,7 +19,7 @@ export const hasReginedUser = params => {
 
 // 获取商品列表接口
 export const GetProductList = params => {
-  return axios.get(`${base}/productlist`, { params: params })
+  return axios.get(`${base}/rental`, { params: params })
 }
 
 // 获取查询商品接口
@@ -34,5 +34,10 @@ export const GetProduct = params => {
 
 // 获取商品
 export const GetProd = params => {
-  return axios.get(`${base}/getprod`, { params: params })
+  return axios.get(`${base}/oneRental`, { params: params })
+}
+
+// 获取商品
+export const GetProds = params => {
+  return axios.get(`${base}/rental`, { params: params })
 }

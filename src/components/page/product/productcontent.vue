@@ -3,20 +3,33 @@
    <!-- head -->
    <div class="head">
      <el-row>
-       <el-col class="left" :span="8" :xs="24">
-         <img class="prodimg" :src="prod.image" alt="">
+       <el-col class="left" :span="12" :xs="24">
+         <!--<img class="prodimg" src="@/assets/youke1.jpg" alt="">-->
+         <el-carousel indicator-position="outside">
+           <el-carousel-item v-for="item in 4" :key="item">
+             <img class="run" src="@/assets/youke1.jpg" alt="">
+           </el-carousel-item>
+         </el-carousel>
        </el-col>
-       <el-col class="right" :span="16" :xs="24">
-          <h3 v-text="prod.name"></h3>
-          <p v-text="prod.desc"></p>
+       <el-col class="right" :span="12" :xs="24">
+          <h3 v-text="prod.itemName"></h3>
+          <p v-text="prod.description"></p>
           <div class="info">
-            <p class="price">价  格：<span :class="hasuser">￥{{prod.price}}</span></p>
-            <p v-if="user">折扣价：<span class="yprice">￥{{prod.price * user.zhekou * 0.1}}</span></p>
-            <p>历史销量：{{prod.sellnum}}</p>
-            <div>
-              <p v-if="prod.selling" class="hot">热销中</p>
-              <p v-else class="nhot">暂停销售，销售时间{{prod.selltime}}</p>
-            </div>
+            <p class="price">租  价：
+              <span :class="hasuser">￥{{prod.rentalPrice}} / {{prod.rentalInterval}}    </span>
+              <template v-if="!prod.bargain">
+                <i class="el-icon-warning" style="color: #ffcc00;font-size: small"></i>
+                <span style="color: #ffcc00;font-size: small" >该商品拒绝讲价！</span>
+              </template>
+            </p>
+            <!--<p v-if="user">折扣价：<span class="yprice">￥{{prod.price * user.zhekou * 0.1}}</span></p>-->
+            <p>成 色：
+              <span v-if="prod.brandNew" class="hot">十成新</span>
+              <span v-else class="nhot">非全新</span>
+            </p>
+            <p>所在地区：{{prod.district}}</p>
+            <p>发布日期：{{dateA}}</p>
+            <p>押    金：￥{{prod.depositPrice}}</p>
           </div>
           <div class="action">
             <el-button type="danger" @click="tosend" :disabled="disabled">立刻去发货</el-button>
@@ -37,7 +50,7 @@
      :editable="prop.editable"
      :scrollStyle="prop.scrollStyle"
      ></mavon-editor> -->
-     <md-show :key="prod._id" :mdvalue="prod.info"></md-show>
+     <!--<md-show :key="prod._id" :mdvalue="prod.info"></md-show>-->
    </div>
  </div>
 </template>
@@ -46,11 +59,27 @@ import { GetProd } from '../../../api/api'
 export default {
   data () {
     return {
-      prod: {}
+      prod: {},
+      imageList: ''
     }
   },
   computed: {
     // ...
+    dateA () {
+      let date = new Date(this.prod.arrivalDate)
+
+      let Y = date.getFullYear()
+      let m = date.getMonth() + 1
+      let d = date.getDate()
+      if (m < 10) {
+        m = '0' + m
+      }
+      if (d < 10) {
+        d = '0' + d
+      }
+      var t = Y + '年' + m + '月' + d + '日'
+      return t
+    },
     user () {
       return this.$store.getters.sender
     },
@@ -71,9 +100,10 @@ export default {
   },
   methods: {
     CurProd () {
+      // eslint-disable-next-line
+      // debugger
       let params = {
-        name: this.$route.params.productname,
-        type: this.$route.params.class
+        id: this.$route.params.productid
       }
       GetProd(params).then(res => {
         console.log(res)
@@ -109,6 +139,9 @@ export default {
         border: 1px solid rgba(92, 97, 92, .3);
         border-radius: 15px;
       }
+      .run {
+        height: 100%;
+      }
     }
     .right {
       padding: 5px 10px 10px 10px;
@@ -121,6 +154,7 @@ export default {
         .yprice {
           color: red;
           font-size: 20px;
+          margin-right: 10px;
         }
         .nprice {
           text-decoration: line-through;
@@ -151,6 +185,18 @@ export default {
       .leftborder;
       margin: 20px 0;
     }
+  }
+  .el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+  }
+  .el-carousel {
+    margin-top: 20px;
+  }
+  .el-carousel__item {
+    text-align: center;
+  }
+  .el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
   }
 }
 </style>

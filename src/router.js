@@ -9,10 +9,15 @@ import Home from '@/components/home'
 // 引入前端组件
 import ConHome from '@/components/con-home'
 import Products from '@/components/page/products'
+import Manger from '@/components/page/manger'
 
 // 商品子组件
 import ProductList from '@/components/page/product/productlist'
-// import ProductContent from '@/components/page/product/productcontent'
+import ProductContent from '@/components/page/product/productcontent'
+
+// 工作台子组件
+import My from '@/components/page/manger/my'
+import MyHistory from '@/components/page/manger/history'
 
 Vue.use(Router)
 
@@ -32,6 +37,7 @@ export const constantRoutes = [
         path: '/products',
         name: '商品',
         class: 'el-icon-goods',
+        show: true,
         component: Products,
         redirect: '/product/全部商品',
         children: [
@@ -41,12 +47,41 @@ export const constantRoutes = [
             component: ProductList
           }
         ]
-      }
-      /* {
-        path: '/product/:class/:productname',
+      },
+      {
+        path: '/product/1/:productid',
         hidden: true,
         component: ProductContent
-      } */
+      },
+      {
+        path: '/manger',
+        name: '工作台',
+        //  redirect: '/manger/my',
+        show: true,
+        meta: {
+          requireUser: true
+        },
+        component: Manger,
+        // hasChild: true,
+        children: [
+          {
+            path: '/manger/my',
+            meta: {
+              requireUser: true
+            },
+            name: '我的信息',
+            component: My
+          },
+          {
+            path: '/manger/history',
+            name: '发货记录',
+            meta: {
+              requireUser: true
+            },
+            component: MyHistory
+          }
+        ]
+      }
     ]
   },
   {
@@ -60,14 +95,6 @@ export const constantRoutes = [
     name: '',
     hidden: true,
     component: Regin
-  },
-  {
-    path: '/index',
-    name: 'index',
-    component: () => import('./views/Index.vue'),
-    meta: {
-      needLogin: true
-    }
   }
 ]
 

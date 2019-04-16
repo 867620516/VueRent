@@ -2588,7 +2588,7 @@
 .hvr-shadow-radial:hover:before, .hvr-shadow-radial:focus:before, .hvr-shadow-radial:active:before, .hvr-shadow-radial:hover:after, .hvr-shadow-radial:focus:after, .hvr-shadow-radial:active:after {
   opacity: 1;
 }
-
+/* eslint-disable */
 /* SPEECH BUBBLES */
 /* Bubble Top */
 .hvr-bubble-top {

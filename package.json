@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "echarts": "^4.2.1",
     "element-ui": "^2.4.5",
     "vue": "^2.6.6",
+    "vue-echarts": "^4.0.1",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
@@ -41,7 +43,9 @@
       "plugin:vue/essential",
       "@vue/standard"
     ],
-    "rules": {},
+    "rules": {
+      "vue/no-use-v-if-with-v-for": "off"
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }

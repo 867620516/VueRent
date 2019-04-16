@@ -19,26 +19,9 @@
     <!-- 右边主要内容 -->
     <el-col :span="18">
       <!-- 商品列表渲染的地方 -->
-      <!--<transition name="el-zoom-in-center">
-        <h3>879870</h3>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        &lt;!&ndash;<router-view :key="key"></router-view>&ndash;&gt;
-      </transition>-->
-      <h3>879870</h3>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
+      <transition name="el-zoom-in-center">
+        <router-view :key="key"></router-view>
+      </transition>
     </el-col>
   </el-row>
 </div>
@@ -65,9 +48,10 @@ export default {
     }
   },
   computed: {
-    /* key () {
+    key () {
+      console.log(this.$route)
       return this.$route.params.class + new Date()
-    } */
+    }
   }
   /* methods: {
     // 获取商品类列表
@@ -88,7 +72,10 @@ export default {
 }
 </script>
 <style scoped>
-.el-input {
+  .container {
+    margin-top: 80px;
+  }
+  .el-input {
   margin: 20px 0;
   width: 60%;
 }

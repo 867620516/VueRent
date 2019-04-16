@@ -4,11 +4,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './plugins/element.js'
+
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.needLogin) {
+/*  if (to.meta.needLogin) {
     if (window.sessionStorage) {
       next()
     } else {
@@ -17,7 +18,7 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     next()
-  }
+  } */
 
   // 如果是去登录或注册，那就先把user移除
   if (to.path === '/login' || to.path === '/regin') {
