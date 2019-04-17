@@ -7,7 +7,7 @@
          <!--<img class="prodimg" src="@/assets/youke1.jpg" alt="">-->
          <el-carousel indicator-position="outside">
            <el-carousel-item v-for="item in 4" :key="item">
-             <img class="run" src="@/assets/youke1.jpg" alt="">
+             <img class="run" src="@/assets/pailide1.jpg" alt="">
            </el-carousel-item>
          </el-carousel>
        </el-col>
@@ -50,7 +50,7 @@
      :editable="prop.editable"
      :scrollStyle="prop.scrollStyle"
      ></mavon-editor> -->
-     <!--<md-show :key="prod._id" :mdvalue="prod.info"></md-show>-->
+     <md-show :key="prod._id" :mdvalue="prod.info"></md-show>
    </div>
  </div>
 </template>

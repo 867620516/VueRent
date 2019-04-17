@@ -19,6 +19,11 @@ import ProductContent from '@/components/page/product/productcontent'
 import My from '@/components/page/manger/my'
 import MyHistory from '@/components/page/manger/history'
 
+import MangerProds from '@/components/page/manger/mangerprods'
+// 商品类组件
+import AddProd from '@/components/page/manger/prods/addprod'
+import AllProds from '@/components/page/manger/prods/allprods'
+
 Vue.use(Router)
 
 export const constantRoutes = [
@@ -56,7 +61,7 @@ export const constantRoutes = [
       {
         path: '/manger',
         name: '工作台',
-        //  redirect: '/manger/my',
+        redirect: '/manger/my',
         show: true,
         meta: {
           requireUser: true
@@ -71,6 +76,25 @@ export const constantRoutes = [
             },
             name: '我的信息',
             component: My
+          },
+          // 商品管理
+          {
+            path: '/manger/mangeprods',
+            name: '商品管理',
+            component: MangerProds,
+            redirect: '/manger/mangeprods/allprods',
+            children: [
+              {
+                path: '/manger/mangeprods/allprods',
+                name: '我的租赁',
+                component: AllProds
+              },
+              {
+                path: '/manger/mangeprods/addprod',
+                name: '发布租赁',
+                component: AddProd
+              }
+            ]
           },
           {
             path: '/manger/history',

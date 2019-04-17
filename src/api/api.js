@@ -41,3 +41,17 @@ export const GetProd = params => {
 export const GetProds = params => {
   return axios.get(`${base}/rental`, { params: params })
 }
+
+// 获取用户发布的商品
+export const GetUserProds = params => {
+  return axios.get(`${base}/userRental`, { params: params })
+}
+// 添加一个商品
+export const NewProd = params => {
+  return axios.post(`${base}/admin/newprod`, params)
+}
+
+// 修改商品
+export const EditProd = params => {
+  return axios.post(`${base}/admin/editprod`, params)
+}

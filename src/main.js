@@ -4,7 +4,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './plugins/element.js'
-
+import mdShow from './utils/mdshow'
+import mangeMenu from './utils/mangemenu'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+// use
+Vue.use(mavonEditor)
+Vue.component('md-show', mdShow)
+Vue.component('mange-menu', mangeMenu)
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 

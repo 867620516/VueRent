@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <!--<el-row>
+    <el-row>
       <el-col :span="6">
         <p></p>
         <div class="menu">
@@ -8,7 +8,7 @@
           :default-active="$route.path"
           router>
             <el-menu-item
-              v-for="item in $router.options.routes[0].children[6].children"
+              v-for="item in $router.options.routes[0].children[3].children"
               :key="item.path"
               :index="item.path">
               {{item.name}}
@@ -23,10 +23,10 @@
               <img class="avatar" :src="user.avatar" alt="">
             </el-col>
             <el-col :span="16" :xs="24">
-              <h4>{{user.name}}</h4>
-              <p>代理级别：<span class="text-color">{{sender.role}}</span>，折扣<span class="text-color">{{sender.zhekou}}折</span></p>
+              <h4>{{user.username}}</h4>
+              <!--<p>代理级别：<span class="text-color">{{sender.role}}</span>，折扣<span class="text-color">{{sender.zhekou}}折</span></p>
               <p>共发货<span class="text-color">{{sender.total}}</span>件</p>
-              <p>离达到<span class="text-color">{{sender.next}}</span>还需再发货<span class="text-color">{{sender.num}}</span>件</p>
+              <p>离达到<span class="text-color">{{sender.next}}</span>还需再发货<span class="text-color">{{sender.num}}</span>件</p>-->
             </el-col>
           </el-row>
         </div>
@@ -34,7 +34,7 @@
           <router-view :key="key"></router-view>
         </transition>
       </el-col>
-    </el-row>-->
+    </el-row>
   </div>
 </template>
 <script>
@@ -44,32 +44,28 @@ export default {
   data () {
     return {
     }
-  }
-  /* computed: {
+  },
+  computed: {
     user () {
       return this.$store.state.user
     },
     key () {
       return this.$route.path
-    },
-    sended () {
-      return this.$store.state.sended
-    },
-    sender () {
-      return this.$store.getters.sender
     }
   },
   mounted () {
-    this.$store.dispatch('sended')
+    console.log(this.$router)
+    /* this.$store.dispatch('sended')
     this.$store.dispatch('products')
-    this.$store.dispatch('prods')
-  } */
+    this.$store.dispatch('prods') */
+  }
 }
 </script>
 
 <style lang="less" scoped>
 @import '../../common/less/index.less';
 .container {
+  margin-top: 80px;
   .menu {
     position: fixed;
     top: 62px;

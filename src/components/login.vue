@@ -109,7 +109,7 @@ export default {
             let user = res.data
             let code = res.status
             // eslint-disable-next-line
-            debugger
+            // debugger
             if (code !== 200) {
               this.$message({
                 type: 'error',

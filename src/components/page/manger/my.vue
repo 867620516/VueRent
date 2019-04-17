@@ -59,8 +59,8 @@ export default {
         yAxis: {},
         series: [{
           name: '发货',
-          type: 'line',
-          data: this.$store.getters.sendedlast
+          type: 'line'
+          // data: this.$store.getters.sendedlast
         }]
       })
       allchar.setOption({
@@ -75,8 +75,8 @@ export default {
         legend: {
           // orient: 'vertical',
           x: 'center',
-          y: '30',
-          data: this.$store.getters.sendedallleg
+          y: '30'
+          // data: this.$store.getters.sendedallleg
         },
         series: [
           {
@@ -87,8 +87,8 @@ export default {
               normal: {
                 formatter: '{b}\n{c}({d}%)'
               }
-            },
-            data: this.$store.getters.sendedall
+            }
+            // data: this.$store.getters.sendedall
           }
         ]
       })
