@@ -14,11 +14,18 @@
       <h4>所有商品</h4>
       <el-table
         :data="prods"
+        highlight-current-row
+        @current-change="handleCurrentChange"
         style="width: 100%">
         <el-table-column
           prop="itemName"
           label="商品名"
           min-width="40%">
+          <!--<router-link
+            :to="'/product/1/'+.id"
+            :key="item.id">
+            <img class="hvr-bob" src="@/assets/erji.jpg" >
+          </router-link>-->
         </el-table-column>
         <el-table-column
           prop="rentalPrice"
@@ -51,7 +58,7 @@
           <template slot-scope="scope">
             <el-button
               type="danger"
-              @click="EditProd(scope.$index, scope.row)">编辑商品</el-button>
+              @click.stop="EditProd(scope.$index, scope.row)">编辑商品</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -59,26 +66,26 @@
     <!-- 编辑商品 -->
     <el-dialog title="编辑商品" :visible.sync="dialogFormVisible" width="90%">
       <el-form ref="editprod" :rules="prodrules" :model="editprod">
-        <el-form-item label="商品名" prop="name">
-          <el-input v-model="editprod.name" placeholder="请输入商品名"></el-input>
+        <el-form-item label="商品名" prop="itemName">
+          <el-input v-model="editprod.itemName" placeholder="请输入商品名"></el-input>
         </el-form-item>
-        <el-form-item label="价格" prop="price">
-          <el-input v-model.number="editprod.price" placeholder="请输入商品价格"></el-input>
+        <el-form-item label="价格" prop="rentalPrice">
+          <el-input v-model.number="editprod.rentalPrice" placeholder="请输入商品价格"></el-input>
         </el-form-item>
         <el-form-item label="商品主图" prop="image">
-          <!-- <el-upload
-            class="prod-image"
-            action="/learn/upload"
-            :show-file-list="false"
-            :on-success="handleSuccess"
-            :before-upload="beforeUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="cur-image">
-            <i v-else class="el-icon-plus prod-uploader-icon"></i>
-          </el-upload> -->
-          <qiniu-upload :key="imageUrl" :url="imageUrl" width="200" height="200" fontSize="40" ref="qnupload"></qiniu-upload>
+          <!--<el-upload
+           class="prod-image"
+           action="/learn/upload"
+           :show-file-list="false"
+           :on-success="handleSuccess"
+           :before-upload="beforeUpload">
+           <img v-if="imageUrl" :src="imageUrl" class="cur-image">
+           <i v-else class="el-icon-plus prod-uploader-icon"></i>
+         </el-upload>-->
+          <!--<qiniu-upload width="200" height="200" fontSize="40" ref="qnupload"></qiniu-upload>-->
         </el-form-item>
-        <el-form-item label="商品类别" prop="typename">
-          <el-select v-model="editprod.typename" placeholder="请选择商品类别">
+        <!--<el-form-item label="商品类别" prop="typename">
+          <el-select v-model="addprod.typename" placeholder="请选择商品类别">
             <template v-for="item in products">
               <el-option :label="item.name" :value="item.name" :key="item.type"></el-option>
             </template>
@@ -86,24 +93,62 @@
         </el-form-item>
 
         <el-form-item label="商品类名">
-          <el-input v-model="editprod.type" disabled></el-input>
+          <el-input v-model="addprod.type" disabled></el-input>
+        </el-form-item>-->
+        <el-form-item label="商品数量" prop="amount">
+          <el-input-number v-model="editprod.amount" :min="1"></el-input-number>
         </el-form-item>
-
-        <el-form-item label="是否上架">
-          <el-switch v-model="editprod.selling"></el-switch>
+        <el-form-item label="租金时段" prop="rentalInterval">
+          <el-select v-model="editprod.rentalInterval" placeholder="请选择" value="tian">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
-
-        <el-form-item label="售卖时间" prop="selltime">
-          <el-input v-model="editprod.selltime" placeholder="请请输入商品售卖时间，月份或全年"></el-input>
+        <el-form-item label="是否全新" prop="brandNew">
+          <el-switch
+            style="display: block"
+            v-model="editprod.brandNew"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            active-value=false
+            inactive-value=true
+            active-text="非全新"
+            inactive-text="十成新">
+          </el-switch>
         </el-form-item>
-
-        <el-form-item label="商品简介" prop="desc">
-          <el-input type="textarea" v-model="editprod.desc" placeholder="请请输入商品简介"></el-input>
+        <el-form-item label="可否讲价" prop="bargain">
+          <el-switch
+            style="display: block"
+            v-model="editprod.bargain"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            active-value=false
+            inactive-value=true
+            active-text="不接受"
+            inactive-text="接受讲价">
+          </el-switch>
+        </el-form-item>
+        <el-form-item label="所在地区" prop="district">
+          <el-cascader
+            size="large"
+            :options="dist"
+            @change="handleChange">
+          </el-cascader>
+        </el-form-item>
+        <el-form-item label="所需押金" prop="depositPrice">
+          <el-input v-model.number="editprod.depositPrice" placeholder="请输入所需押金"></el-input>
+        </el-form-item>
+        <el-form-item label="商品简介" prop="description">
+          <el-input type="textarea" v-model="editprod.description" placeholder="请请输入商品简介"></el-input>
         </el-form-item>
 
         <el-form-item label="商品详情" prop="info">
-          <!-- <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="editprod.info"></mavon-editor> -->
-          <md-upload :key="editprod.info" :info="editprod.info" ref="mdedit"></md-upload>
+          <!--<mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addprod.info"></mavon-editor>-->
+          <!--<md-upload ref="newmd"></md-upload>-->
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -115,8 +160,8 @@
 
 </template>
 <script>
-import { GetUserProds, GetProds, EditProd } from '../../../../api/api'
-// import {UploadFile} from '../../../api/api'
+import { GetUserProds, GetProds, NewProd } from '../../../../api/api'
+import { provinceAndCityData, CodeToText } from '@/data/app'
 export default {
   // ..
   data () {
@@ -127,17 +172,36 @@ export default {
       products: [],
       dialogFormVisible: false,
       imageUrl: '',
+      dist: provinceAndCityData,
+      options: [{
+        value: '天',
+        label: '天'
+      }, {
+        value: '周',
+        label: '周'
+      }, {
+        value: '月',
+        label: '月'
+      }, {
+        value: '年',
+        label: '年'
+      }],
       editprod: {
-        name: '',
-        price: '',
-        type: '',
-        typename: '',
-        selling: '',
-        desc: '',
-        info: ''
+        id: '',
+        itemName: '',
+        rentalPrice: '',
+        /* type: '',
+        typename: '', */
+        amount: '',
+        rentalInterval: '',
+        brandNew: '',
+        bargain: '',
+        district: '',
+        depositPrice: '',
+        description: ''
       },
       prodrules: {
-        name: [
+        itemName: [
           {
             required: true,
             message: '请输入商品名',
@@ -145,12 +209,12 @@ export default {
           },
           {
             min: 3,
-            max: 15,
-            message: '长度在 3 到 15 个字',
+            max: 50,
+            message: '长度在 3 到 50 个字',
             trigger: 'blur'
           }
         ],
-        price: [
+        rentalPrice: [
           {
             required: true,
             message: '请输入商品价格',
@@ -162,24 +226,31 @@ export default {
             trigger: 'blur'
           }
         ],
-        type: [
+        rentalInterval: [
           {
             required: true,
-            message: '商品必须选择一个类别',
+            message: '必须选择租金时段',
             trigger: 'change'
           }
         ],
-        desc: [
+        district: [
           {
             required: true,
-            message: '请输入商品简介',
+            message: '商品所在地区是必须的！',
             trigger: 'blur'
           }
         ],
-        selltime: [
+        depositPrice: [
           {
             required: true,
-            message: '商品售卖时间段是必须的！',
+            message: '押金是必须的！',
+            trigger: 'blur'
+          }
+        ],
+        description: [
+          {
+            required: true,
+            message: '请输入商品简介',
             trigger: 'blur'
           }
         ]
@@ -212,6 +283,16 @@ export default {
     deep: true
   },
   methods: {
+    handleCurrentChange (val) {
+      console.log(val)
+      this.$router.push({
+        path: '/product/1/' + val.id
+      })
+    },
+    handleChange (value) {
+      this.addprod.district = CodeToText[value[0]] + CodeToText[value[1]]
+      console.log(this.addprod.district)
+    },
     // 搜索商品
     SerchProd () {
       let serchpar = {
@@ -289,24 +370,27 @@ export default {
     submitEdit () {
       this.$refs.editprod.validate(valid => {
         if (valid) {
-          const updatedParams = {
-            id: this.editprod._id,
-            name: this.editprod.name,
-            price: this.editprod.price,
-            image: this.$refs.qnupload.imageUrl,
-            type: this.editprod.type,
-            typename: this.editprod.typename,
-            selling: this.editprod.selling,
-            desc: this.editprod.desc,
-            info: this.$refs.mdedit.mdinfo,
-            selltime: this.editprod.selltime
+          let addprodpar = {
+            // 另一种写法
+            id: this.editprod.id,
+            itemName: this.editprod.itemName,
+            rentalPrice: this.editprod.rentalPrice,
+            amount: this.editprod.amount,
+            rentalInterval: this.editprod.rentalInterval,
+            brandNew: this.editprod.brandNew,
+            bargain: this.editprod.bargain,
+            district: this.editprod.district,
+            userID: this.$store.state.user.id,
+            depositPrice: this.editprod.depositPrice,
+            description: this.editprod.description
           }
-          // console.log(updatedParams)
-          EditProd(updatedParams).then(res => {
+          console.log(addprodpar)
+          NewProd(addprodpar).then(res => {
+            console.log(res)
             this.$notify({
-              title: '商品修改成功',
-              message: res.data.name,
+              title: '成功',
               type: 'success',
+              message: res.data.edit,
               offset: 100
             })
             this.dialogFormVisible = false

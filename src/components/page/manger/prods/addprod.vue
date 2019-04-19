@@ -3,11 +3,11 @@
   <div class="addprod">
     <h4>新增商品</h4>
     <el-form ref="addprod" :rules="prodrules" :model="addprod" label-width="80px">
-      <el-form-item label="商品名" prop="name">
-        <el-input v-model="addprod.name" placeholder="请输入商品名"></el-input>
+      <el-form-item label="商品名" prop="itemName">
+        <el-input v-model="addprod.itemName" placeholder="请输入商品名"></el-input>
       </el-form-item>
-      <el-form-item label="价格" prop="price">
-        <el-input v-model.number="addprod.price" placeholder="请输入商品价格"></el-input>
+      <el-form-item label="价格" prop="rentalPrice">
+        <el-input v-model.number="addprod.rentalPrice" placeholder="请输入商品价格"></el-input>
       </el-form-item>
       <el-form-item label="商品主图" prop="image">
          <!--<el-upload
@@ -19,7 +19,7 @@
           <img v-if="imageUrl" :src="imageUrl" class="cur-image">
           <i v-else class="el-icon-plus prod-uploader-icon"></i>
         </el-upload>-->
-        <qiniu-upload width="200" height="200" fontSize="40" ref="qnupload"></qiniu-upload>
+        <!--<qiniu-upload width="200" height="200" fontSize="40" ref="qnupload"></qiniu-upload>-->
       </el-form-item>
       <!--<el-form-item label="商品类别" prop="typename">
         <el-select v-model="addprod.typename" placeholder="请选择商品类别">
@@ -32,8 +32,11 @@
       <el-form-item label="商品类名">
         <el-input v-model="addprod.type" disabled></el-input>
       </el-form-item>-->
-      <el-form-item label="租金时段">
-        <el-select v-model="addprod.rentalInterval" placeholder="请选择">
+      <el-form-item label="商品数量" prop="amount">
+        <el-input-number v-model="addprod.amount" :min="1"></el-input-number>
+      </el-form-item>
+      <el-form-item label="租金时段" prop="rentalInterval">
+        <el-select v-model="addprod.rentalInterval" placeholder="请选择" value="tian">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -42,20 +45,44 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="是否上架">
-        <el-switch v-model="addprod.selling"></el-switch>
+      <el-form-item label="是否全新" prop="brandNew">
+        <el-switch
+          style="display: block"
+          v-model="addprod.brandNew"
+          active-color="#13ce66"
+          active-value=true
+          inactive-value=false
+          active-text="十成新"
+          inactive-text="非全新">
+        </el-switch>
       </el-form-item>
-
-      <el-form-item label="售卖时间" prop="selltime">
-        <el-input v-model="addprod.selltime" placeholder="请请输入商品售卖时间，月份或全年"></el-input>
+      <el-form-item label="可否讲价" prop="bargain">
+        <el-switch
+          style="display: block"
+          v-model="addprod.bargain"
+          active-color="#13ce66"
+          active-value=true
+          inactive-value=false
+          active-text="接受讲价"
+          inactive-text="不接受">
+        </el-switch>
       </el-form-item>
-
-      <el-form-item label="商品简介" prop="desc">
-        <el-input type="textarea" v-model="addprod.desc" placeholder="请请输入商品简介"></el-input>
+      <el-form-item label="所在地区" prop="district">
+        <el-cascader
+          size="large"
+          :options="dist"
+          @change="handleChange">
+        </el-cascader>
+      </el-form-item>
+      <el-form-item label="所需押金" prop="depositPrice">
+        <el-input v-model.number="addprod.depositPrice" placeholder="请输入所需押金"></el-input>
+      </el-form-item>
+      <el-form-item label="商品简介" prop="description">
+        <el-input type="textarea" v-model="addprod.description" placeholder="请请输入商品简介"></el-input>
       </el-form-item>
 
       <el-form-item label="商品详情" prop="info">
-        <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addprod.info"></mavon-editor>
+        <!--<mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addprod.info"></mavon-editor>-->
         <!--<md-upload ref="newmd"></md-upload>-->
       </el-form-item>
 
@@ -67,21 +94,24 @@
 </template>
 <script>
 // import {UploadFile} from '../../../api/api'
+// eslint-disable-next-line
 import { NewProd } from '../../../../api/api'
+import { provinceAndCityData, CodeToText } from '@/data/app'
 export default {
   data () {
     return {
+      dist: provinceAndCityData,
       options: [{
-        value: '选项1',
+        value: '天',
         label: '天'
       }, {
-        value: '选项2',
+        value: '周',
         label: '周'
       }, {
-        value: '选项3',
+        value: '月',
         label: '月'
       }, {
-        value: '选项4',
+        value: '年',
         label: '年'
       }],
       imageUrl: '',
@@ -91,12 +121,16 @@ export default {
         rentalPrice: '',
         /* type: '',
         typename: '', */
-        selling: '',
-        description: '',
-        info: ''
+        amount: '',
+        rentalInterval: '',
+        brandNew: '',
+        bargain: '',
+        district: '',
+        depositPrice: '',
+        description: ''
       },
       prodrules: {
-        name: [
+        itemName: [
           {
             required: true,
             message: '请输入商品名',
@@ -104,12 +138,12 @@ export default {
           },
           {
             min: 3,
-            max: 15,
-            message: '长度在 3 到 15 个字',
+            max: 50,
+            message: '长度在 3 到 50 个字',
             trigger: 'blur'
           }
         ],
-        price: [
+        rentalPrice: [
           {
             required: true,
             message: '请输入商品价格',
@@ -121,24 +155,31 @@ export default {
             trigger: 'blur'
           }
         ],
-        type: [
+        rentalInterval: [
           {
             required: true,
-            message: '商品必须选择一个类别',
+            message: '必须选择租金时段',
             trigger: 'change'
           }
         ],
-        desc: [
+        district: [
           {
             required: true,
-            message: '请输入商品简介',
+            message: '商品所在地区是必须的！',
             trigger: 'blur'
           }
         ],
-        selltime: [
+        depositPrice: [
           {
             required: true,
-            message: '商品售卖时间段是必须的！',
+            message: '押金是必须的！',
+            trigger: 'blur'
+          }
+        ],
+        description: [
+          {
+            required: true,
+            message: '请输入商品简介',
             trigger: 'blur'
           }
         ]
@@ -164,6 +205,10 @@ export default {
     }
   },
   methods: {
+    handleChange (value) {
+      this.addprod.district = CodeToText[value[0]] + CodeToText[value[1]]
+      console.log(this.addprod.district)
+    },
     // 获取所有商品分类
     /* getproducts () {
       let getproductspar = {
@@ -177,33 +222,22 @@ export default {
     newprod () {
       this.$refs.addprod.validate(valid => {
         if (valid) {
-          // const prodFd = new FormData()
-          // prodFd.append('name', this.addprod.name)
           let addprodpar = {
-            // 一种写法
-            // id: this.addprod.type,
-            // prod: {
-            //   name: this.addprod.name,
-            //   price: this.addprod.price,
-            //   image: this.imageUrl,
-            //   desc: this.addprod.desc,
-            //   selling: this.addprod.selling,
-            //   info: this.addprod.info
-            // }
             // 另一种写法
-            name: this.addprod.name,
-            price: this.addprod.price,
-            image: this.$refs.qnupload.imageUrl,
-            desc: this.addprod.desc,
-            type: this.addprod.type,
-            typename: this.addprod.typename,
-            selling: this.addprod.selling,
-            info: this.$refs.newmd.mdinfo,
-            selltime: this.addprod.selltime
+            itemName: this.addprod.itemName,
+            rentalPrice: this.addprod.rentalPrice,
+            amount: this.addprod.amount,
+            rentalInterval: this.addprod.rentalInterval,
+            brandNew: this.addprod.brandNew,
+            bargain: this.addprod.bargain,
+            district: this.addprod.district,
+            userID: this.$store.state.user.id,
+            depositPrice: this.addprod.depositPrice,
+            description: this.addprod.description
           }
-          // console.log(addprodpar)
+          console.log(addprodpar)
           NewProd(addprodpar).then(res => {
-            // console.log(res)
+            console.log(res)
             this.$notify({
               title: '成功',
               type: 'success',
@@ -211,7 +245,7 @@ export default {
               offset: 200
             })
             this.$refs.addprod.resetFields()
-            this.$router.push('/admin/mangeprods/allprods')
+            this.$router.push('/manger/mangeprods/allprods')
           })
         } else {
           this.$notify({
@@ -225,7 +259,7 @@ export default {
     }
   },
   mounted () {
-    this.getproducts()
+    // this.getproducts()
   }
 }
 </script>

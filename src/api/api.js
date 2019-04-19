@@ -48,10 +48,17 @@ export const GetUserProds = params => {
 }
 // 添加一个商品
 export const NewProd = params => {
-  return axios.post(`${base}/admin/newprod`, params)
+  return axios.post(`${base}/newRental`, params)
 }
-
-// 修改商品
-export const EditProd = params => {
-  return axios.post(`${base}/admin/editprod`, params)
+// 获得user发布的租赁物品数量
+export const GetRentalNum = params => {
+  return axios.get(`${base}/getRentalNum`, { params: params })
+}
+// 获得当前用户粉丝数量
+export const GetFollowerNum = params => {
+  return axios.get(`${base}/getFollowerNum`, { params: params })
+}
+// 获得当前用户关注了多少人
+export const GetFollowingNum = params => {
+  return axios.get(`${base}/getFollowingNum`, { params: params })
 }
