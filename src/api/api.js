@@ -62,3 +62,18 @@ export const GetFollowerNum = params => {
 export const GetFollowingNum = params => {
   return axios.get(`${base}/getFollowingNum`, { params: params })
 }
+
+// 获取七牛云上传token
+export const GetQiniuUpToken = params => {
+  return axios.get(`${base}/gettoken`, { params: params })
+}
+
+// 上传图片接口
+export const UploadFile = params => {
+  return axios({
+    url: base + '/upload',
+    method: 'post',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: params
+  })
+}

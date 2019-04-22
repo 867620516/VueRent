@@ -19,7 +19,7 @@
           <img v-if="imageUrl" :src="imageUrl" class="cur-image">
           <i v-else class="el-icon-plus prod-uploader-icon"></i>
         </el-upload>-->
-        <!--<qiniu-upload width="200" height="200" fontSize="40" ref="qnupload"></qiniu-upload>-->
+        <qiniu-upload width="200" height="200" fontSize="40" ref="qnupload"></qiniu-upload>
       </el-form-item>
       <!--<el-form-item label="商品类别" prop="typename">
         <el-select v-model="addprod.typename" placeholder="请选择商品类别">
@@ -83,7 +83,7 @@
 
       <el-form-item label="商品详情" prop="info">
         <!--<mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addprod.info"></mavon-editor>-->
-        <!--<md-upload ref="newmd"></md-upload>-->
+        <md-upload ref="newmd"></md-upload>
       </el-form-item>
 
       <el-form-item>

@@ -1,18 +1,25 @@
 import Vue from 'vue'
 import axios from 'axios'
+// 引入moment
+import moment from 'moment'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import './plugins/element.js'
+import qiniuUpload from './utils/uploadUi'
+import mdUpload from './utils/mdupload'
 import mdShow from './utils/mdshow'
 import mangeMenu from './utils/mangemenu'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 // use
 Vue.use(mavonEditor)
+Vue.component('qiniu-upload', qiniuUpload)
+Vue.component('md-upload', mdUpload)
 Vue.component('md-show', mdShow)
 Vue.component('mange-menu', mangeMenu)
 Vue.prototype.$axios = axios
+Vue.prototype.$moment = moment
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
