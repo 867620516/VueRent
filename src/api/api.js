@@ -27,6 +27,10 @@ export const SearchProductList = params => {
   return axios.get(`${base}/search`, { params: params })
 }
 
+export const SearchMyList = params => {
+  return axios.get(`${base}/searchMy`, { params: params })
+}
+
 // 商品详情接口
 export const GetProduct = params => {
   return axios.get(`${base}/product`, { params: params })

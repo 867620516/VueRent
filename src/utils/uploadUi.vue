@@ -4,7 +4,6 @@
     <el-upload
       class="qnuploader"
       :style="initwd"
-      :action= domain
       :http-request = uploadImage
       :show-file-list="false"
       :before-upload="beforeUpload">
@@ -14,16 +13,12 @@
   </div>
 </template>
 <script>
-import { GetQiniuUpToken, UploadFile } from '../api/api'
+import { UploadFile } from '../api/api'
 export default {
   props: ['width', 'height', 'fontSize', 'url'],
   data () {
     return {
-      imageUrl: this.url,
-      // 七牛云的上传地址，根据自己所在地区选择，我这里是华南区
-      domain: '',
-      // 这是七牛云空间的外链默认域名
-      qiniuaddr: ''
+      imageUrl: this.url
     }
   },
   computed: {
@@ -56,7 +51,7 @@ export default {
         this.imageUrl = res.data.message
       })
     },
-    // 上传文件到七牛云
+    /* // 上传文件到七牛云
     upqiniu (req) {
       // console.log(req)
       const config = {
@@ -87,7 +82,7 @@ export default {
           // console.log(this.imageUrl)
         })
       })
-    },
+    }, */
     // 验证文件合法性
     beforeUpload (file) {
       const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'

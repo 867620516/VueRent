@@ -160,7 +160,7 @@
 
 </template>
 <script>
-import { GetUserProds, GetProds, NewProd } from '../../../../api/api'
+import { GetUserProds, SearchMyList, NewProd } from '../../../../api/api'
 import { provinceAndCityData, CodeToText } from '@/data/app'
 export default {
   // ..
@@ -295,27 +295,28 @@ export default {
     },
     // 搜索商品
     SerchProd () {
-      let serchpar = {
-        name: this.prodName
+      let searchparams = {
+        id: this.$store.state.user.id,
+        searchName: this.prodName
       }
-      GetProds(serchpar).then(res => {
+      SearchMyList(searchparams).then(res => {
         // console.log(res)
-        if (res.data.prods.length > 0) {
+        if (res.data.length === 0) {
           this.$notify({
-            title: '成功',
-            type: 'success',
-            message: '共搜索到' + res.data.prods.length + '个商品',
+            title: '很抱歉',
+            message: '没有搜索到符合的商品！',
+            type: 'warning',
             offset: 200
           })
-          this.prods = res.data.prods
           this.prodName = ''
         } else {
           this.$notify({
-            title: '失败',
-            type: 'error',
-            message: '没有找到合适的商品,请检查商品名',
+            title: '成功',
+            message: '共搜索到' + res.data.length + '件商品',
+            type: 'success',
             offset: 200
           })
+          this.prods = res.data
           this.prodName = ''
         }
       })

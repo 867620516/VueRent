@@ -53,8 +53,7 @@
   </div>
 </template>
 <script>
-// import { SearchProductList } from '../../../api/api'
-import { GetProds } from '../../../api/api'
+import { GetProds, SearchProductList } from '../../../api/api'
 export default {
   data () {
     return {
@@ -87,9 +86,9 @@ export default {
     },
     // 搜索商品
     search () {
-      /* this.loading = true
+      this.loading = true
       let searchparams = {
-        name: this.searchName
+        searchName: this.searchName
       }
       SearchProductList(searchparams).then(res => {
         this.loading = false
@@ -112,7 +111,7 @@ export default {
           this.productlist = res.data
           this.searchName = ''
         }
-      }) */
+      })
     }
   },
   computed: {
