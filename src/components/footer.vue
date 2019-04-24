@@ -20,6 +20,7 @@ export default {
 .footer {
   width: 100%;
   box-shadow: 0 -1px 1px @color;
+  margin: 0px;
   background: #fff;
   z-index: 10;
   .logo {

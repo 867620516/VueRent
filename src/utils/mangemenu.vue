@@ -29,13 +29,18 @@ export default {
   props: ['pathName'],
   computed: {
     route () {
-      // let pathName = this.pathName
+      let pathName = this.pathName
       console.log(this.$route)
-      /* const route = this.$store.state.addRoutes[0].children
-      const culRoute = route.filter(r => {
+      console.log('3287359849')
+      // eslint-disable-next-line
+      // debugger
+      const culRoutes = this.$router.options.routes[0].children[3]
+      const resRoute = culRoutes.children.filter(r => {
         return r.name === pathName
-      }) */
-      return this.$router.options.routes[0].children[3].children[1].children
+      })
+
+      // this.$router.options.routes[0].children[3].children[1].children
+      return resRoute[0].children
     }
   }
 }

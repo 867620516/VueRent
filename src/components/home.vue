@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <div>
     <!-- 头部组件渲染 -->
     <header-ly></header-ly>
     <!-- 中间主要区域容器 -->

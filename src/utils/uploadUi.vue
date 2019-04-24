@@ -4,6 +4,7 @@
     <el-upload
       class="qnuploader"
       :style="initwd"
+      :action= domain
       :http-request = uploadImage
       :show-file-list="false"
       :before-upload="beforeUpload">
@@ -18,7 +19,8 @@ export default {
   props: ['width', 'height', 'fontSize', 'url'],
   data () {
     return {
-      imageUrl: this.url
+      imageUrl: this.url,
+      domain: ''
     }
   },
   computed: {

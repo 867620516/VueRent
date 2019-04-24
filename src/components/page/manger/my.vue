@@ -4,7 +4,7 @@
       <div class="head">
         <h3>{{this.$route.name}}</h3>
       </div>
-      <el-col class="last" :span="24" :xs="24">
+      <!--<el-col class="last" :span="24" :xs="24">
         <div id="lastchart" :style="{width: '100%', height: '400px'}">
 
         </div>
@@ -13,7 +13,7 @@
         <div id="allchart" :style="{width: '100%', height: '400px'}">
 
         </div>
-      </el-col>
+      </el-col>-->
     </el-row>
   </div>
 </template>
@@ -39,6 +39,9 @@ export default {
   computed: {
     user () {
       return this.$store.state.user
+    },
+    key () {
+      return this.$route.path
     }
   },
   methods: {
