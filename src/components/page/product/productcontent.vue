@@ -6,8 +6,8 @@
        <el-col class="left" :span="12" :xs="24">
          <!--<img class="prodimg" src="@/assets/youke1.jpg" alt="">-->
          <el-carousel indicator-position="outside">
-           <el-carousel-item v-for="item in 4" :key="item">
-             <img class="run" src="@/assets/pailide1.jpg" alt="">
+           <el-carousel-item v-for="item in prod.imageList" :key="item">
+             <img class="run" :src="item" alt="">
            </el-carousel-item>
          </el-carousel>
        </el-col>

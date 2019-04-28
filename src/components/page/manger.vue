@@ -7,7 +7,7 @@
           <div class="user">
             <el-row>
               <el-col>
-                <img class="avatar" :src="user.avatar" alt="">
+                <img class="avatar" :src=user.icon alt="">
               </el-col>
               <el-col>
                 <h4>{{user.username}}</h4>

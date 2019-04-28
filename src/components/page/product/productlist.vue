@@ -27,7 +27,7 @@
           <router-link
             :to="'/product/1/'+item.id"
             :key="item.id">
-            <img class="hvr-bob" src="@/assets/erji.jpg" >
+            <img class="hvr-bob" :src="item.imageList[0]" >
           </router-link>
           <!--<img class="hvr-bob" :src="'@/assets/'+item.imageList[0]">-->
           <div class="onpic">
@@ -198,6 +198,7 @@ a:hover {
     }
     img {
       width: 90%;
+      height: 400px;
       padding: 10px;
       border-radius: 15px;
     }

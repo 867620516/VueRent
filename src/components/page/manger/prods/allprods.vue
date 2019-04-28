@@ -33,11 +33,11 @@
           min-width="10%">
         </el-table-column>
         <el-table-column
-          prop="image"
+          prop="imageList"
           label="图片"
           min-width="20%">
           <template slot-scope="scope">
-            <img class="table-image" :src="scope.row.image" alt="">
+            <img class="table-image" :src="scope.row.imageList[0]" alt="">
           </template>
         </el-table-column>
         <el-table-column

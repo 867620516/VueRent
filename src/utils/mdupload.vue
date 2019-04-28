@@ -31,7 +31,7 @@ export default {
         } else if ($file.type === 'image/gif') {
           filetype = 'gif'
         }
-        const keyname = this.$moment(new Date()).format('YYYY/MM/DD-HH:mm:ss') + '-' + 'consignment' + '-' + Math.floor(Math.random() * 100) + '.' + filetype
+        const keyname = '-' + 'consignment' + '-' + Math.floor(Math.random() * 100) + '.' + filetype
         const formdata = new FormData()
         formdata.append('file', $file)
         formdata.append('token', token)

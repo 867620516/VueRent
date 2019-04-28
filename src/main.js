@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import axios from 'axios'
-// 引入moment
-import moment from 'moment'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -19,7 +17,6 @@ Vue.component('md-upload', mdUpload)
 Vue.component('md-show', mdShow)
 Vue.component('mange-menu', mangeMenu)
 Vue.prototype.$axios = axios
-Vue.prototype.$moment = moment
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {

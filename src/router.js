@@ -16,11 +16,8 @@ import ProductList from '@/components/page/product/productlist'
 import ProductContent from '@/components/page/product/productcontent'
 
 // 工作台子组件
-import MangerMy from '@/components/page/manger/mangermy'
 import MyHistory from '@/components/page/manger/history'
-
-import UserInfo from '@/components/page/manger/my/userinfo'
-import UserIcon from '@/components/page/manger/my/usericon'
+import My from '@/components/page/manger/my'
 import MangerProds from '@/components/page/manger/mangerprods'
 // 商品类组件
 import AddProd from '@/components/page/manger/prods/addprod'
@@ -77,8 +74,8 @@ export const constantRoutes = [
               requireUser: true
             },
             name: '我的信息',
-            component: MangerMy,
-            redirect: '/manger/my/userinfo',
+            component: My
+            /* redirect: '/manger/my/userinfo',
             children: [
               {
                 path: '/manger/my/userinfo',
@@ -90,7 +87,7 @@ export const constantRoutes = [
                 name: '修改头像',
                 component: UserIcon
               }
-            ]
+            ] */
           },
           // 商品管理
           {

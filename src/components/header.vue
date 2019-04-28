@@ -40,7 +40,7 @@
         </el-button-group>
         <div v-else>
           <el-dropdown>
-            <img class="avatar" src="../assets/getAvatar.jpg" alt="">
+            <!--<img class="avatar" src="../assets/getAvatar.jpg" alt="">-->
             <img class="avatar" v-bind:src=icon alt="">
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="tomy" v-text="user.username"></el-dropdown-item>
