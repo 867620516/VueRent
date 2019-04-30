@@ -27,7 +27,7 @@
           <router-link
             :to="'/product/1/'+item.id"
             :key="item.id">
-            <img class="hvr-bob" :src="item.imageList[0]" >
+            <img class="hvr-bob" style="object-fit: cover;width: 90%;height: 400px;padding: 10px;border-radius: 15px;" :src="item.imageList[0]" >
           </router-link>
           <!--<img class="hvr-bob" :src="'@/assets/'+item.imageList[0]">-->
           <div class="onpic">
@@ -37,7 +37,16 @@
           <h3 class="rentalName">{{item.itemName}}</h3>
           <p class="intro">{{item.description}}</p>
           <!--<p class="sellnum">历史销量:<span>{{item.sellnum}}</span></p>-->
-          <p class="price">租价:<span :class="old">{{item.rentalPrice}}</span><span class="interval"> /{{item.rentalInterval}}</span></p>
+          <div style="float: none">
+            <div class="price">租价:<span :class="old">{{item.rentalPrice}}</span><span class="interval"> /{{item.rentalInterval}}</span></div>
+            <div style="float: right;margin-right: 10px">
+              <router-link
+                :to="{path:'/users/'+item.userID,query:{uname:item.userName}}"
+                :key="item.userID">
+                <img id="avatar" v-bind:src=item.userIcon alt=""><span class="uuuu">{{item.userName}}</span>
+              </router-link>
+            </div>
+          </div>
         </el-col>
       </template>
     </el-row>
@@ -168,6 +177,13 @@ a:hover {
 }
 .main {
   position: relative;
+  #avatar {
+    width: 20px;
+    height: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
   .item {
     margin: 25px 10px;
     /* background: #f2f3f2; */
@@ -196,12 +212,12 @@ a:hover {
         display: inline-block;
       }
     }
-    img {
+    /*img {
       width: 90%;
       height: 400px;
       padding: 10px;
       border-radius: 15px;
-    }
+    }*/
   }
 }
 
@@ -211,9 +227,21 @@ a:hover {
   /*white-space: nowrap;!*不换行*!*/
   text-overflow:ellipsis;/*超出部分文字以...显示*/
 }
-.intro,.price,.sellnum {
-  margin: 0 15px 0 25px;
+.intro,.sellnum {
+  margin: 0 15px 0 20px;
   text-align: left;
+  color: #666;
+  line-height: 2;
+  letter-spacing: 1.2;
+}
+.price {
+  margin: 0 15px 0 20px;
+  color: #666;
+  float: left;
+  line-height: 2;
+  letter-spacing: 1.2;
+}
+.uuuu {
   color: #666;
   line-height: 2;
   letter-spacing: 1.2;

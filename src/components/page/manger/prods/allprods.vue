@@ -146,9 +146,9 @@
           <el-input type="textarea" v-model="editprod.description" placeholder="请请输入商品简介"></el-input>
         </el-form-item>
 
-        <el-form-item label="商品详情" prop="info">
+        <el-form-item label="商品详情" prop="info"><br/>
           <!--<mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addprod.info"></mavon-editor>-->
-          <!--<md-upload ref="newmd"></md-upload>-->
+          <md-upload :key="editprod.info" :info="editprod.info" ref="mdedit"></md-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -198,7 +198,8 @@ export default {
         bargain: '',
         district: '',
         depositPrice: '',
-        description: ''
+        description: '',
+        info: ''
       },
       prodrules: {
         itemName: [
@@ -383,6 +384,7 @@ export default {
             district: this.editprod.district,
             userID: this.$store.state.user.id,
             depositPrice: this.editprod.depositPrice,
+            info: this.$refs.mdedit.mdinfo,
             description: this.editprod.description
           }
           console.log(addprodpar)

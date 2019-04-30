@@ -2,25 +2,26 @@
  <div class="container">
    <!-- head -->
    <div class="head">
-     <el-row>
-       <el-col class="left" :span="12" :xs="24">
-         <!--<img class="prodimg" src="@/assets/youke1.jpg" alt="">-->
-         <el-carousel indicator-position="outside">
+     <el-row v-if="prod">
+       <el-col class="left" :span="8" :xs="24">
+         <img class="prodimg" :src="prod.imageList[0]" alt="">
+         <!--<el-carousel indicator-position="outside">
            <el-carousel-item v-for="item in prod.imageList" :key="item">
              <img class="run" :src="item" alt="">
            </el-carousel-item>
-         </el-carousel>
+         </el-carousel>-->
        </el-col>
-       <el-col class="right" :span="12" :xs="24">
+       <el-col class="right" :span="16" :xs="24">
           <h3 v-text="prod.itemName"></h3>
           <p v-text="prod.description"></p>
           <div class="info">
             <p class="price">租  价：
-              <span :class="hasuser">￥{{prod.rentalPrice}} / {{prod.rentalInterval}}    </span>
+              <span class="yprice">￥{{prod.rentalPrice}} / {{prod.rentalInterval}}    </span>
               <template v-if="!prod.bargain">
                 <i class="el-icon-warning" style="color: #ffcc00;font-size: small"></i>
                 <span style="color: #ffcc00;font-size: small" >该商品拒绝讲价！</span>
               </template>
+              <template v-else></template>
             </p>
             <!--<p v-if="user">折扣价：<span class="yprice">￥{{prod.price * user.zhekou * 0.1}}</span></p>-->
             <p>成 色：
@@ -29,6 +30,7 @@
             </p>
             <p>所在地区：{{prod.district}}</p>
             <p>发布日期：{{dateA}}</p>
+            <p>物品数量：<el-input-number size="small" v-model="numbe" :min="1" :max="prod.amount"></el-input-number></p>
             <p>押    金：￥{{prod.depositPrice}}</p>
           </div>
           <div class="action">
@@ -50,7 +52,7 @@
      :editable="prop.editable"
      :scrollStyle="prop.scrollStyle"
      ></mavon-editor> -->
-     <md-show :key="prod._id" :mdvalue="prod.info"></md-show>
+     <md-show :key="prod.id" :mdvalue="prod.info"></md-show>
    </div>
  </div>
 </template>
@@ -59,6 +61,7 @@ import { GetProd } from '../../../api/api'
 export default {
   data () {
     return {
+      numbe: 1,
       prod: {},
       imageList: ''
     }
@@ -66,6 +69,7 @@ export default {
   computed: {
     // ...
     dateA () {
+      console.log(this.prod.arrivalDate)
       let date = new Date(this.prod.arrivalDate)
 
       let Y = date.getFullYear()
@@ -79,16 +83,6 @@ export default {
       }
       var t = Y + '年' + m + '月' + d + '日'
       return t
-    },
-    user () {
-      return this.$store.getters.sender
-    },
-    hasuser () {
-      if (this.user) {
-        return 'nprice'
-      } else {
-        return 'yprice'
-      }
     },
     disabled () {
       if (this.prod.selling) {

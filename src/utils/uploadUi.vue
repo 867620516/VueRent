@@ -2,15 +2,19 @@
   <!-- upload -->
   <div class="upload">
     <el-upload
-      class="qnuploader"
-      :style="initwd"
       :action= domain
       :http-request = uploadImage
-      :show-file-list="false"
+      list-type="picture-card"
+      :on-preview="handlePictureCardPreview"
+      :on-change="handleAdd"
+      :on-remove="handleRemove"
       :before-upload="beforeUpload">
-      <img v-if="imageUrl" :src="imageUrl" class="upload-img" :style="initwd">
-      <i v-else class="el-icon-plus uploader-icon" :style="initsize"></i>
+      <!--<img v-if="imageUrl" :src="imageUrl" class="upload-img" :style="initwd">-->
+      <i class="el-icon-plus uploader-icon"></i>
     </el-upload>
+    <el-dialog :visible.sync="dialogVisible" size="tiny">
+      <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -20,7 +24,10 @@ export default {
   data () {
     return {
       imageUrl: this.url,
-      domain: ''
+      domain: '',
+      dialogImageUrl: '',
+      dialogVisible: false,
+      picForm: new FormData()
     }
   },
   computed: {
@@ -40,6 +47,22 @@ export default {
     }
   },
   methods: {
+    uploadFile (file) {
+      this.picForm.append('file', file.file)
+      console.log(this.picForm)
+    },
+    handleAdd (file, fileList) {
+      this.picForm.append('file[]', file)
+      console.log(this.picForm.getAll('file[]'))
+    },
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePictureCardPreview (file) {
+      console.log(file)
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
+    },
     uploadImage (req) {
       console.log(req.file)
       let fileObj = req.file
@@ -87,13 +110,14 @@ export default {
     }, */
     // 验证文件合法性
     beforeUpload (file) {
+      console.log('boforefsafsd')
       const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 5
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是JPG或者PNG格式!')
+        this.$message.error('上传图片只能是JPG或者PNG格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 5MB!')
+        this.$message.error('上传图片大小不能超过 5MB!')
       }
       return isJPG && isLt2M
     }

@@ -7,7 +7,8 @@
       <h4>我的信息</h4>
       <el-row>
         <el-col :span="6" :xs="24">
-          <img v-if="!imgDataUrl" class="avatar" :src=user.icon alt="">
+          <img v-if="!user.icon" class="avatar" src="../../../assets/defaulticon.png" alt="">
+          <img v-else-if="!imgDataUrl" class="avatar" :src=user.icon alt="">
           <img v-else class="avatar" :src="imgDataUrl" alt="">
           <br/>
           <el-button type="success" @click="toggleShow">修改头像</el-button>
@@ -64,8 +65,8 @@
                @crop-upload-success="cropUploadSuccess"
                @crop-upload-fail="cropUploadFail"
                v-model="show"
-               :width="50"
-               :height="50"
+               :width="70"
+               :height="70"
                :params="userInfo"
                url="/api/uploadIcon"
                img-format="png">

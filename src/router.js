@@ -10,6 +10,7 @@ import Home from '@/components/home'
 import ConHome from '@/components/con-home'
 import Products from '@/components/page/products'
 import Manger from '@/components/page/manger'
+import Users from '@/components/page/users'
 
 // 商品子组件
 import ProductList from '@/components/page/product/productlist'
@@ -117,6 +118,10 @@ export const constantRoutes = [
             component: MyHistory
           }
         ]
+      },
+      {
+        path: '/users/:userID',
+        component: Users
       }
     ]
   },

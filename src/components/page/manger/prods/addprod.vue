@@ -88,6 +88,7 @@
 
       <el-form-item>
         <el-button type="primary" @click="newprod">立即添加</el-button>
+        <el-button type="primary" @click="test">test</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -121,6 +122,7 @@ export default {
         rentalPrice: '',
         /* type: '',
         typename: '', */
+        arrivalDate: '',
         amount: '',
         rentalInterval: '',
         brandNew: '',
@@ -205,6 +207,10 @@ export default {
     }
   },
   methods: {
+    test () {
+      console.log('12323' + this.$refs.qnupload.picForm.getAll('file[]'))
+      this.$refs.qnupload.submit()
+    },
     handleChange (value) {
       this.addprod.district = CodeToText[value[0]] + CodeToText[value[1]]
       console.log(this.addprod.district)
@@ -228,6 +234,7 @@ export default {
             rentalPrice: this.addprod.rentalPrice,
             amount: this.addprod.amount,
             rentalInterval: this.addprod.rentalInterval,
+            arrivalDate: new Date(),
             brandNew: this.addprod.brandNew,
             bargain: this.addprod.bargain,
             district: this.addprod.district,

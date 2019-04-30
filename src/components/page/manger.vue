@@ -7,7 +7,8 @@
           <div class="user">
             <el-row>
               <el-col>
-                <img class="avatar" :src=user.icon alt="">
+                <img v-if="user.icon" class="avatar" :src=user.icon alt="">
+                <img v-else class="avatar" src="../../assets/defaulticon.png" alt="">
               </el-col>
               <el-col>
                 <h4>{{user.username}}</h4>

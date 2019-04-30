@@ -41,7 +41,8 @@
         <div v-else>
           <el-dropdown>
             <!--<img class="avatar" src="../assets/getAvatar.jpg" alt="">-->
-            <img class="avatar" v-bind:src=icon alt="">
+            <img v-if="icon" class="avatar" v-bind:src=icon alt="">
+            <img v-else class="avatar" src="../assets/defaulticon.png" alt="">
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="tomy" v-text="user.username"></el-dropdown-item>
               <el-dropdown-item @click.native="tosend">我的工作台</el-dropdown-item>
