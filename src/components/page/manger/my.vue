@@ -46,7 +46,10 @@
                 placeholder="电话号码">
               </el-input>
             </el-form-item>
-
+            <el-form-item label="个人简介" prop="intro">
+              <el-input type="textarea" v-model="Form.intro" placeholder="请输入个人简介">
+              </el-input>
+            </el-form-item>
             <el-form-item>
               <el-button
                 type="primary"
@@ -112,7 +115,8 @@ export default {
         username: '',
         password: '',
         phone: '',
-        email: ''
+        email: '',
+        intro: ''
       },
       userInfo: {
         id: this.$store.state.user.id

@@ -11,19 +11,21 @@ import ConHome from '@/components/con-home'
 import Products from '@/components/page/products'
 import Manger from '@/components/page/manger'
 import Users from '@/components/page/users'
-
+import Talk from './components/page/talk/talk'
 // 商品子组件
 import ProductList from '@/components/page/product/productlist'
 import ProductContent from '@/components/page/product/productcontent'
 
 // 工作台子组件
-import MyHistory from '@/components/page/manger/history'
+import CreateAt from '@/components/page/manger/create-talk'
 import My from '@/components/page/manger/my'
 import MangerProds from '@/components/page/manger/mangerprods'
 // 商品类组件
 import AddProd from '@/components/page/manger/prods/addprod'
 import AllProds from '@/components/page/manger/prods/allprods'
 
+// 说说组件
+import TalkDetail from './components/page/talk/talk-detail'
 Vue.use(Router)
 
 export const constantRoutes = [
@@ -110,18 +112,27 @@ export const constantRoutes = [
             ]
           },
           {
-            path: '/manger/history',
-            name: '发货记录',
+            path: '/manger/create',
+            name: '我的说说',
             meta: {
               requireUser: true
             },
-            component: MyHistory
+            component: CreateAt
           }
         ]
       },
       {
         path: '/users/:userID',
         component: Users
+      },
+      {
+        path: '/talk',
+        name: '说说',
+        component: Talk
+      },
+      {
+        path: 'talk/detail/:talkid',
+        component: TalkDetail
       }
     ]
   },

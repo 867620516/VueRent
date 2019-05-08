@@ -10,6 +10,7 @@ import mdShow from './utils/mdshow'
 import mangeMenu from './utils/mangemenu'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+
 // use
 Vue.use(mavonEditor)
 Vue.component('qiniu-upload', qiniuUpload)

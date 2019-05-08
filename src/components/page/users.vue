@@ -42,20 +42,24 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import '../../common/less/index.less';
 .container {
-.user {
-  .avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
-    margin: 30px 0 5px 0;
+  margin-top: 80px;
+  .user {
+    .learncontent;
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50px;
+      margin: 30px 0 5px 0;
+    }
+    .text-color {
+      color: @color;
+      font-size: 1rem;
+      @media screen and (max-width: 768px) {
+        font-size: .8rem;
+      }
+    }
   }
-  .text-color {
-    font-size: 1rem;
-  @media screen and (max-width: 768px) {
-    font-size: .8rem;
-  }
-}
-}
 }
 </style>
