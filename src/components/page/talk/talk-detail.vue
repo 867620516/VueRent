@@ -2,99 +2,100 @@
   <div id="mywork">
     <el-row style="margin-top: 80px">
       <el-col :span="16" :offset="4">
-        <div>
-          <div class="title line-height-40 font-size-22">
-            {{ thisTalk.content}}
-          </div>
-          <dl class="list-user-other">
-            <dt>
-              <a
-                :href="$store.state.userUrlPre"
-                target="_blank"
-              >
-                <img
-                  :src="thisTalk.userIcon"
-                  style="width: 25px;height: 25px;border-radius: 100%;"
-                />
-              </a>
-            </dt>
-            <dd>
-              <a
-                :href="$store.state.userUrlPre"
-                target="_blank"
-              >{{ thisTalk.userName }}</a
-              >
-            </dd>
-            <dd>
-              <span class="text">阅读数:</span>
-              <span class="num">{{ thisTalk.clickRate }}</span>
-            </dd>
-            <dd>{{ thisTalk.createTime }}</dd>
-          </dl>
-          <div
-            class="box-flex width-100 margin-auto margin-top-1 margin-bottom-1 border-top border-color-bfbfbf"
-          ></div>
-          <h3>21231231231312</h3>
-          <!--<div class="content" v-html="thisTalk.content"></div>-->
-        </div>
-
-        <!--<div class="comment-append-section" id="commentAppendArea">
-          &lt;!&ndash; <Input v-model="commentAppend" v-show="!appendActive" @on-focus="toggleInput"
-                            prefix="ios-create" placeholder="添加评论" />
-
-                    <Input v-show="appendActive" v-model="commentAppend"
-                           @on-blur="toggleInput" ref="commentInputDom"
-                           type="textarea" :autosize="{minRows: 3,maxRows: 10}" placeholder="添加评论" /> &ndash;&gt;
-          <el-input
-            v-model="commentAppend"
-            @on-blur="toggleInput"
-            @on-focus="focusInput"
-            ref="commentInputDom"
-            type="textarea"
-            :rows="commentAppendInput"
-            placeholder="添加评论"
-          />
-
-          <el-button
-            style="margin-top: 10px"
-            type="primary"
-            @click="publishComment()"
-          >发表评论</el-button
-          >
-        </div>
-
-        <div class="comment-section">
-          &lt;!&ndash; <div class="reply-count">
-                        {{total}}条回复
-                    </div> &ndash;&gt;
-
-          <ul class="reply-list">
-            <li
-              v-for="(comment, index) in comments"
-              class="reply-item"
-              :key="comment.id"
-            >
-              <div class="user">
+        <div class="whole">
+          <div>
+            <div class="title line-height-40 font-size-22">
+              {{ thisTalk.content}}
+            </div>
+            <dl class="list-user-other">
+              <dt>
                 <a
-                  :href="$store.state.userUrlPre + comment.userid"
+                  :href="$store.state.userUrlPre"
                   target="_blank"
                 >
                   <img
-                    class="avatar"
-                    :src="comment.userHeadImg"
-                    :title="comment.userName"
+                    :src="thisTalk.userIcon"
+                    style="width: 25px;height: 25px;border-radius: 100%;"
                   />
                 </a>
-                <div class="title-info">
+              </dt>
+              <dd>
+                <a
+                  :href="$store.state.userUrlPre"
+                  target="_blank"
+                >{{ thisTalk.userName }}</a
+                >
+              </dd>
+              <dd>
+                <span class="text">阅读数:</span>
+                <span class="num">{{ thisTalk.clickRate }}</span>
+              </dd>
+              <dd>{{ dateGet(thisTalk.createTime) }}</dd>
+            </dl>
+            <div
+              class="box-flex width-100 margin-auto margin-top-1 margin-bottom-1 border-top border-color-bfbfbf"
+            ></div>
+            <h3>21231231231312</h3>
+            <!--<div class="content" v-html="thisTalk.content"></div>-->
+          </div>
+
+          <div class="comment-append-section" id="commentAppendArea" style="text-align: right">
+            <!-- <Input v-model="commentAppend" v-show="!appendActive" @on-focus="toggleInput"
+                              prefix="ios-create" placeholder="添加评论" />
+
+                      <Input v-show="appendActive" v-model="commentAppend"
+                             @on-blur="toggleInput" ref="commentInputDom"
+                             type="textarea" :autosize="{minRows: 3,maxRows: 10}" placeholder="添加评论" /> -->
+            <el-input
+              v-model="commentAppend"
+              @focus="focusInput"
+              ref="commentInputDom"
+              type="textarea"
+              :rows="commentAppendInput"
+              placeholder="添加评论"
+            />
+
+            <el-button
+              style="margin-top: 10px"
+              type="primary"
+              size="medium"
+              @click="publishComment()"
+            >发表评论</el-button
+            >
+          </div>
+
+          <div class="comment-section">
+            <!-- <div class="reply-count">
+                          {{total}}条回复
+                      </div> -->
+
+            <ul class="reply-list">
+              <li
+                v-for="(comment, index) in comments"
+                class="reply-item"
+                :key="comment.id"
+              >
+                <div class="user">
                   <a
                     :href="$store.state.userUrlPre + comment.userid"
                     target="_blank"
                   >
-                    <span class="user-name">{{ comment.userName }}</span>
+                    <img
+                      class="avatar"
+                      :src="comment.userIcon"
+                      :title="comment.userName"
+                      alt=""/>
                   </a>
-                  <span># {{ index + 1 }} 楼 • {{ comment.creatTimeBy }}</span>
-                </div>
-                <div class="title-info-other">
+                  <div class="title-info">
+                    <!--<a
+                      :href="$store.state.userUrlPre + comment.userid"
+                      target="_blank"
+                    >-->
+                    <span class="user-name">{{ comment.userName }}</span>
+                    <!--</a>-->
+                    <span># {{ index + 1 }} 楼 • {{ latestTimeFormat(comment.createTime) }}</span>
+                  </div>
+                  <div class="title-info-other">
                   <span>
                     <a
                       v-show="!comment.showContent"
@@ -108,81 +109,81 @@
                     >
                     <a @click="writeComment(comment, 1)">回复</a>
                   </span>
+                  </div>
                 </div>
-              </div>
-              <div class="reply-info">
-                <div class="reply-content">
-                  {{ comment.comment }}
+                <div class="reply-info">
+                  <div class="reply-content">
+                    {{ comment.comment }}
+                  </div>
                 </div>
-              </div>
-              <ul v-show="comment.showContent" class="reply-child-list">
-                <li
-                  v-for="(replyComment) in comment.childComments"
-                  class="reply-item"
-                  :key="replyComment.id"
-                >
-                  <div class="reply-info">
-                    <div class="title-info">
-                      <a
-                        :href="$store.state.userUrlPre + replyComment.userid"
-                        target="_blank"
-                      >
-                        <img
-                          class="avatar"
-                          :src="replyComment.userHeadImg"
-                          :title="replyComment.userName"
-                        />
-                      </a>
-                      <div class="title-info-right">
+                <ul v-show="comment.showContent" class="reply-child-list">
+                  <li
+                    v-for="(replyComment) in comment.childComments"
+                    class="reply-item"
+                    :key="replyComment.id"
+                  >
+                    <div class="reply-info">
+                      <div class="title-info">
                         <a
                           :href="$store.state.userUrlPre + replyComment.userid"
                           target="_blank"
                         >
+                          <img
+                            class="avatar"
+                            :src="replyComment.userIcon"
+                            :title="replyComment.userName"
+                          />
+                        </a>
+                        <div class="title-info-right">
+                          <a
+                            :href="$store.state.userUrlPre + replyComment.userid"
+                            target="_blank"
+                          >
                           <span class="user-name">{{
                             replyComment.userName
                           }}</span>
-                        </a>
-                        <span>回复</span>
-                        <span class="user-name"
-                        >{{ replyComment.replierName }}:</span
-                        >
-                        <span>{{ replyComment.comment }}</span>
-                        <span class="reply-time"
-                        >({{ replyComment.creatTimeBy }})</span
-                        >
-                        <a @click="writeComment(replyComment, 2)">回复</a>
+                          </a>
+                          <span>回复</span>
+                          <span class="user-name"
+                          >{{ replyComment.replierName }}:</span
+                          >
+                          <span>{{ replyComment.comment }}</span>
+                          <span class="reply-time"
+                          >({{ replyComment.creatTimeBy }})</span
+                          >
+                          <a @click="writeComment(replyComment, 2)">回复</a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-              </ul>
-            </li>
-          </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
 
-          <Page
-            v-if="total > 10"
-            class="pagin"
-            :total="total"
-            size="small"
-            show-elevator
-            @on-change="
-              e => {
-                pageSearch(e);
-              }
-            "
-          />
-        </div>-->
+            <!--<Page
+              v-if="total > 10"
+              class="pagin"
+              :total="total"
+              size="small"
+              show-elevator
+              @on-change="
+                e => {
+                  pageSearch(e);
+                }
+              "
+            />-->
+          </div>
+        </div>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
-import { getTalkById } from '../../../api/talkAPI'
+import { getTalkById, writeComment, getComments } from '../../../api/talkAPI'
 
 export default {
   data () {
     return {
-      articleId: null,
       thisTalk: {
         id: '',
         content: '',
@@ -199,27 +200,38 @@ export default {
       total: 0,
       commentAppend: '',
       commentAppendInput: 1,
-      appendActive: false,
-      articleComment: {
-        articleid: null,
-        articleOwnerId: null,
+      talkComment: {
+        talkid: null,
+        talkOwnerId: null,
+        userID: null,
         parentid: null,
         comment: null,
         replierId: null,
-        replierName: null
+        replierName: null,
+        createTime: null
       }
     }
   },
   created () {
     this.getThisTalk()
-    // this.getComments()
+    this.getComments()
   },
   methods: {
+    dateGet (e) {
+      let time = new Date(e)
+      return (
+        time.getFullYear() +
+        '-' +
+        (time.getMonth() + 1) +
+        '-' +
+        time.getDate() +
+        ' ' +
+        time.getHours() +
+        ':' +
+        time.getMinutes()
+      )
+    },
     getThisTalk () {
-      let talk = {
-        id: this.$route.params.talkid
-      }
-      console.log(talk)
       getTalkById({
         id: this.$route.params.talkid
       }).then(res => {
@@ -227,61 +239,32 @@ export default {
         console.log(this.thisTalk)
       })
     },
-    articleSet (e) {
-      this.article.id = e.id
-      this.article.title = e.title
-      this.article.content = e.content
-      this.article.clickRate = e.clickRate
-      this.article.commentCount = e.commentCount
-      this.article.createTime = this.dateGet(e.createTime)
-      this.article.userid = e.userid
-      this.article.userName = e.userName
-      this.article.userHeadImg = e.userHeadImg
-      this.article.githuburl = e.githuburl
-    },
-    articleCommentSet (e) {
-      this.articleComment.articleid = e.articleid
-      this.articleComment.parentid = e.parentid
-      this.articleComment.comment = e.comment
-      this.articleComment.replierId = e.replierId
-      this.articleComment.replierName = e.replierName
-      this.articleComment.articleOwnerId = this.article.userid
-    },
-    articleCommentInit () {
-      this.articleComment.articleid = null
-      this.articleComment.parentid = null
-      this.articleComment.comment = null
-      this.articleComment.replierId = null
-      this.articleComment.replierName = null
-      this.articleComment.articleOwnerId = null
+    talkCommentInit () {
+      this.talkComment.talkid = null
+      this.talkComment.parentid = null
+      this.talkComment.comment = null
+      this.talkComment.replierId = null
+      this.userID = null
+      this.talkComment.replierName = null
+      this.talkComment.talkOwnerId = null
+      this.talkComment.createTime = null
     },
     getComments () {
-      this.axios({
-        method: 'get',
-        url: '/public/talk/comment',
-        params: {
-          articleId: this.articleId,
-          page: this.page,
-          pageSize: this.pageSize
+      getComments({ talkid: this.$route.params.talkid }).then(res => {
+        let data = res.data
+        console.log(data)
+        for (let comment of data) {
+          comment.creatTimeBy = this.latestTimeFormat(comment.createTime)
+          comment.showContent = false
+          for (let replyComment of comment.childComments) {
+            replyComment.creatTimeBy = this.latestTimeFormat(
+              replyComment.createTime
+            )
+          }
         }
+        this.comments = data
+        this.total = data.totalCount
       })
-        .then(
-          function (response) {
-            let data = response.data.data
-            for (let comment of data.data) {
-              comment.creatTimeBy = this.latestTimeFormat(comment.createTime)
-              comment.showContent = false
-              for (let replyComment of comment.childComments) {
-                replyComment.creatTimeBy = this.latestTimeFormat(
-                  replyComment.createTime
-                )
-              }
-            }
-            this.comments = data.data
-            this.total = data.totalCount
-          }.bind(this)
-        )
-        .catch(() => {})
     },
     focusInput (event) {
       this.commentAppendInput = 3
@@ -291,83 +274,78 @@ export default {
 
       var anchor = this.$el.querySelector('#commentAppendArea')
       document.body.scrollTop = anchor.offsetTop // chrome
-      this.appendActive = true
       // document.documentElement.scrollTop = anchor.offsetTop; // firefox
 
       if (sign === 1) {
-        this.articleComment.articleid = this.articleId
-        this.articleComment.parentid = e.id
-        this.articleComment.comment = null
-        this.articleComment.replierId = e.userid
-        this.articleComment.replierName = e.userName
+        this.talkComment.talkid = this.talkid
+        this.talkComment.parentid = e.id
+        this.talkComment.comment = null
+        this.talkComment.replierId = e.userid
+        this.talkComment.replierName = e.userName
       } else if (sign === 2) {
-        this.articleComment.articleid = this.articleId
-        this.articleComment.parentid = e.parentid
-        this.articleComment.comment = null
-        this.articleComment.replierId = e.userid
-        this.articleComment.replierName = e.userName
+        this.talkComment.talkid = this.talkid
+        this.talkComment.parentid = e.parentid
+        this.talkComment.comment = null
+        this.talkComment.replierId = e.userid
+        this.talkComment.replierName = e.userName
       }
       this.commentAppend = '[reply]' + e.userName + '[/reply]\n'
     },
     publishComment () {
       if (
-        this.axios.defaults.headers.common['Authorization'] == null ||
-        this.axios.defaults.headers.common['Authorization'] === ''
+        this.$store.state.user == null ||
+        this.$store.state.user === ''
       ) {
-        this.$Message.error('请登录')
+        this.$message.error('请登录')
         return
       }
       if (this.commentAppend == null || this.commentAppend === '') {
-        this.$Message.error('请输入评论')
+        this.$message.error('请输入评论')
         return
       }
 
-      if (this.articleComment.replierName != null) {
+      if (this.talkComment.replierName != null) {
         var str = this.commentAppend.substring(
           0,
-          15 + this.articleComment.replierName.length
+          15 + this.talkComment.replierName.length
         )
-        var validate = '[reply]' + this.articleComment.replierName + '[/reply]'
+        var validate = '[reply]' + this.talkComment.replierName + '[/reply]'
         if (str === validate) {
-          this.articleComment.comment = this.commentAppend.substring(
+          this.talkComment.comment = this.commentAppend.substring(
             str.length
           )
-          this.articleComment.articleOwnerId = this.article.userid
-          this.postComment(this.articleComment)
+          this.talkComment.talkOwnerId = this.thisTalk.userID
+          this.talkComment.createTime = new Date()
+          this.talkComment.userID = this.$store.state.user.id
+          this.postComment(this.talkComment)
         } else {
           this.postComment({
-            articleid: this.articleId,
+            talkid: this.talkid,
             comment: this.commentAppend,
-            articleOwnerId: this.article.userid
+            talkOwnerId: this.thisTalk.userID,
+            createTime: new Date(),
+            userID: this.$store.state.user.id
           })
         }
       } else {
         this.postComment({
-          articleid: this.articleId,
+          talkid: this.talkid,
           comment: this.commentAppend,
-          articleOwnerId: this.article.userid
+          talkOwnerId: this.thisTalk.userID,
+          createTime: new Date(),
+          userID: this.$store.state.user.id
         })
       }
     },
     postComment (e) {
-      this.axios({
-        method: 'post',
-        url: '/talk/comment',
-        data: e
+      writeComment(e).then(res => {
+        this.$message.success('评论成功')
+        this.getComments()
+        this.talkCommentInit()
+        this.commentAppend = null
+      }).catch(() => {
+        this.$message.error('评论失败，请稍后重试！')
       })
-        .then(
-          function (response) {
-            this.$Message.success('评论成功')
-            this.getComments()
-            this.articleCommentInit()
-            this.commentAppend = null
-          }.bind(this)
-        )
-        .catch(
-          function () {
-            this.$Message.error('评论失败，请稍后重试！')
-          }.bind(this)
-        )
     },
     changeContent (index) {
       var temp = this.comments[index]
@@ -377,21 +355,58 @@ export default {
     pageSearch (e) {
       this.page = e - 1
       this.getComments()
+    },
+    latestTimeFormat (time) {
+      if (!time) {
+        return ''
+      }
+      let differ = new Date(new Date() - new Date(time))
+
+      let result = differ.getFullYear() - 1970
+      if (result) {
+        return result + '年前'
+      }
+      result = differ.getMonth()
+      if (result) {
+        return result + '月前'
+      }
+      result = differ.getDate() - 1
+      if (result) {
+        return result + '天前'
+      }
+      result = differ.getHours() - 8
+      if (result) {
+        return result + '小时前'
+      }
+      result = differ.getMinutes()
+      if (result) {
+        return result + '分钟前'
+      }
+      result = differ.getSeconds()
+      if (result) {
+        return result + '秒前'
+      }
     }
   }
 }
 </script>
-<style scoped lang="scss">
-  .article {
-    width: 100%;
-    background: #fff;
-    margin-bottom: 20px;
-  }
-
+<style scoped lang="less">
+  @import '../../../common/less/index.less';
   .title {
     color: black;
+    text-align: left;
   }
 
+  .whole {
+    margin: 20px 15px;
+    box-shadow: 0 0 5px @color;
+    border-radius: 10px;
+    padding: 10px;
+    /*@media screen and (max-width: 768px) {
+      margin: 10px 1px;
+      padding: 2px;
+    }*/
+  }
   .list-user-other {
     margin: 10px 0px;
     height: 24px;
@@ -409,6 +424,7 @@ export default {
     color: #8a8a8a;
     line-height: 24px;
     margin-right: 10px;
+    margin-inline-start: 5px
   }
 
   .list-user-other .text {
@@ -435,6 +451,7 @@ export default {
 
     ul {
       list-style: none;
+      padding-inline-start: 10px
     }
 
     image {
@@ -475,6 +492,7 @@ export default {
             float: left;
           }
           .title-info {
+            text-align: left;
             font-size: 12px;
             float: left;
             margin-top: 4px;
@@ -564,6 +582,7 @@ export default {
     }
 
     .reply-content {
+      text-align: left;
       padding: 10px 20px 0 0;
       font-size: 14px;
     }

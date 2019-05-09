@@ -17,3 +17,9 @@ export const getAllTalk = params => {
 export const getTalkById = params => {
   return axios.get(`${base}/talkById`, { params: params })
 }
+export const getComments = params => {
+  return axios.get(`${base}/comments`, { params: params })
+}
+export const writeComment = params => {
+  return axios.post(`${base}/writeComment`, params)
+}
