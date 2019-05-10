@@ -63,6 +63,7 @@ export const constantRoutes = [
       {
         path: '/manger',
         name: '工作台',
+        class: 'el-icon-document',
         redirect: '/manger/my',
         show: true,
         meta: {
@@ -122,14 +123,16 @@ export const constantRoutes = [
         ]
       },
       {
+        path: '/talk',
+        name: '说说',
+        class: 'el-icon-edit',
+        component: Talk
+      },
+      {
         path: '/users/:userID',
         component: Users
       },
-      {
-        path: '/talk',
-        name: '说说',
-        component: Talk
-      },
+
       {
         path: 'talk/detail/:talkid',
         component: TalkDetail

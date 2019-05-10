@@ -9,22 +9,25 @@
             </div>
             <dl class="list-user-other">
               <dt>
-                <a
-                  :href="$store.state.userUrlPre"
+                <router-link
+                  :to="{path:'/users/'+thisTalk.userID,query:{uname:thisTalk.userName}}"
+                  :key="thisTalk.userID"
                   target="_blank"
                 >
                   <img
                     :src="thisTalk.userIcon"
                     style="width: 25px;height: 25px;border-radius: 100%;"
                   />
-                </a>
+                </router-link>
               </dt>
               <dd>
-                <a
-                  :href="$store.state.userUrlPre"
+                <router-link
+                  :to="{path:'/users/'+thisTalk.userID,query:{uname:thisTalk.userName}}"
+                  :key="thisTalk.userID"
                   target="_blank"
-                >{{ thisTalk.userName }}</a
                 >
+                  <span style="color: #666;">{{ thisTalk.userName }}</span>
+                </router-link>
               </dd>
               <dd>
                 <span class="text">阅读数:</span>
@@ -32,14 +35,10 @@
               </dd>
               <dd>{{ dateGet(thisTalk.createTime) }}</dd>
             </dl>
-            <div
-              class="box-flex width-100 margin-auto margin-top-1 margin-bottom-1 border-top border-color-bfbfbf"
-            ></div>
-            <h3>21231231231312</h3>
             <!--<div class="content" v-html="thisTalk.content"></div>-->
           </div>
 
-          <div class="comment-append-section" id="commentAppendArea" style="text-align: right">
+          <div class="comment-append-section" id="commentAppendArea" style="text-align: right;margin-top: 25px">
             <!-- <Input v-model="commentAppend" v-show="!appendActive" @on-focus="toggleInput"
                               prefix="ios-create" placeholder="添加评论" />
 
@@ -58,10 +57,13 @@
             <el-button
               style="margin-top: 10px"
               type="primary"
-              size="medium"
+              size="small"
               @click="publishComment()"
             >发表评论</el-button
             >
+          </div>
+          <div style="margin-top:20px">
+            <hr align="left" noshade="noshade" size="1" width="100%"/>
           </div>
 
           <div class="comment-section">
@@ -70,14 +72,17 @@
                       </div> -->
 
             <ul class="reply-list">
+              <li v-if="comments.length==0" style="text-align: left;color: dimgray;font-family: '微软雅黑 Light'">还没人评论，快来抢沙发~</li>
               <li
+                v-else
                 v-for="(comment, index) in comments"
                 class="reply-item"
                 :key="comment.id"
               >
                 <div class="user">
-                  <a
-                    :href="$store.state.userUrlPre + comment.userid"
+                  <router-link
+                    :to="{path:'/users/'+comment.userID,query:{uname:comment.userName}}"
+                    :key="comment.userID"
                     target="_blank"
                   >
                     <img
@@ -85,14 +90,15 @@
                       :src="comment.userIcon"
                       :title="comment.userName"
                       alt=""/>
-                  </a>
+                  </router-link>
                   <div class="title-info">
-                    <!--<a
-                      :href="$store.state.userUrlPre + comment.userid"
+                    <router-link
+                      :to="{path:'/users/'+comment.userID,query:{uname:comment.userName}}"
+                      :key="comment.userID"
                       target="_blank"
-                    >-->
+                    >
                     <span class="user-name">{{ comment.userName }}</span>
-                    <!--</a>-->
+                    </router-link>>
                     <span># {{ index + 1 }} 楼 • {{ latestTimeFormat(comment.createTime) }}</span>
                   </div>
                   <div class="title-info-other">
@@ -124,8 +130,9 @@
                   >
                     <div class="reply-info">
                       <div class="title-info">
-                        <a
-                          :href="$store.state.userUrlPre + replyComment.userid"
+                        <router-link
+                          :to="{path:'/users/'+replyComment.userID,query:{uname:replyComment.userName}}"
+                          :key="replyComment.userID"
                           target="_blank"
                         >
                           <img
@@ -133,16 +140,17 @@
                             :src="replyComment.userIcon"
                             :title="replyComment.userName"
                           />
-                        </a>
+                        </router-link>
                         <div class="title-info-right">
-                          <a
-                            :href="$store.state.userUrlPre + replyComment.userid"
+                          <router-link
+                            :to="{path:'/users/'+replyComment.userID,query:{uname:replyComment.userName}}"
+                            :key="replyComment.userID"
                             target="_blank"
                           >
                           <span class="user-name">{{
                             replyComment.userName
                           }}</span>
-                          </a>
+                          </router-link>
                           <span>回复</span>
                           <span class="user-name"
                           >{{ replyComment.replierName }}:</span
@@ -201,12 +209,12 @@ export default {
       commentAppend: '',
       commentAppendInput: 1,
       talkComment: {
-        talkid: null,
+        talkID: null,
         talkOwnerId: null,
         userID: null,
-        parentid: null,
+        parentID: null,
         comment: null,
-        replierId: null,
+        replierID: null,
         replierName: null,
         createTime: null
       }
@@ -240,10 +248,10 @@ export default {
       })
     },
     talkCommentInit () {
-      this.talkComment.talkid = null
-      this.talkComment.parentid = null
+      this.talkComment.talkID = null
+      this.talkComment.parentID = null
       this.talkComment.comment = null
-      this.talkComment.replierId = null
+      this.talkComment.replierID = null
       this.userID = null
       this.talkComment.replierName = null
       this.talkComment.talkOwnerId = null
@@ -275,18 +283,17 @@ export default {
       var anchor = this.$el.querySelector('#commentAppendArea')
       document.body.scrollTop = anchor.offsetTop // chrome
       // document.documentElement.scrollTop = anchor.offsetTop; // firefox
-
       if (sign === 1) {
-        this.talkComment.talkid = this.talkid
-        this.talkComment.parentid = e.id
+        this.talkComment.talkID = this.thisTalk.id
+        this.talkComment.parentID = e.id
         this.talkComment.comment = null
-        this.talkComment.replierId = e.userid
+        this.talkComment.replierID = e.userID
         this.talkComment.replierName = e.userName
       } else if (sign === 2) {
-        this.talkComment.talkid = this.talkid
-        this.talkComment.parentid = e.parentid
+        this.talkComment.talkID = this.thisTalk.id
+        this.talkComment.parentID = e.parentID
         this.talkComment.comment = null
-        this.talkComment.replierId = e.userid
+        this.talkComment.replierID = e.userID
         this.talkComment.replierName = e.userName
       }
       this.commentAppend = '[reply]' + e.userName + '[/reply]\n'
@@ -305,6 +312,8 @@ export default {
       }
 
       if (this.talkComment.replierName != null) {
+        // eslint-disable-next-line
+        // debugger
         var str = this.commentAppend.substring(
           0,
           15 + this.talkComment.replierName.length
@@ -320,7 +329,7 @@ export default {
           this.postComment(this.talkComment)
         } else {
           this.postComment({
-            talkid: this.talkid,
+            talkID: this.thisTalk.id,
             comment: this.commentAppend,
             talkOwnerId: this.thisTalk.userID,
             createTime: new Date(),
@@ -328,8 +337,10 @@ export default {
           })
         }
       } else {
+        // eslint-disable-next-line
+        debugger
         this.postComment({
-          talkid: this.talkid,
+          talkID: this.thisTalk.id,
           comment: this.commentAppend,
           talkOwnerId: this.thisTalk.userID,
           createTime: new Date(),
@@ -396,7 +407,9 @@ export default {
     color: black;
     text-align: left;
   }
-
+  a {
+    text-decoration: none;
+  }
   .whole {
     margin: 20px 15px;
     box-shadow: 0 0 5px @color;
@@ -445,7 +458,6 @@ export default {
 
   .comment-section {
     flex-direction: column;
-    margin-top: 5px;
     background-color: #fff;
     overflow: hidden;
 

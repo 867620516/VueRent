@@ -1,7 +1,8 @@
 <template>
   <div id="mywork">
-    <el-row style="margin-top: 80px">
+    <el-row style="margin-top: 80px;margin-bottom: 40px">
       <el-col :span="16" :offset="4">
+        <u-p></u-p>
         <el-card
           v-for="(item, index) in talkList"
           :key="index"
@@ -76,8 +77,11 @@
 </template>
 <script>
 import { getUserTalk } from '../../../api/talkAPI'
-
+import UP from '../../up'
 export default {
+  components: {
+    UP
+  },
   data () {
     return {
       searchContent: null,

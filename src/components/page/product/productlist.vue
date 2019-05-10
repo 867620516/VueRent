@@ -38,7 +38,7 @@
           <p class="intro">{{item.description}}</p>
           <!--<p class="sellnum">历史销量:<span>{{item.sellnum}}</span></p>-->
           <div style="float: none">
-            <div class="price">租价:<span :class="old">{{item.rentalPrice}}</span><span class="interval"> /{{item.rentalInterval}}</span></div>
+            <div class="price">租价:<span class="textOld">{{item.rentalPrice}}</span><span class="interval"> /{{item.rentalInterval}}</span></div>
             <div style="float: right;margin-right: 10px">
               <router-link
                 :to="{path:'/users/'+item.userID,query:{uname:item.userName}}"
@@ -124,16 +124,6 @@ export default {
     }
   },
   computed: {
-    sender () {
-      return this.$store.getters.sender
-    },
-    old () {
-      if (this.sender) {
-        return 'textThr'
-      } else {
-        return 'textOld'
-      }
-    },
     disabled () {
       if (this.searchName === '') {
         return true

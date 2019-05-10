@@ -3,15 +3,15 @@
    <!-- head -->
    <div class="head">
      <el-row v-if="prod">
-       <el-col class="left" :span="8" :xs="24">
-         <img class="prodimg" :src="prod.imageList[0]" alt="">
-         <!--<el-carousel indicator-position="outside">
+       <el-col class="left" :span="12" :xs="24">
+         <!--<img class="prodimg" :src="prod.imageList[0]" alt="">-->
+         <el-carousel indicator-position="outside">
            <el-carousel-item v-for="item in prod.imageList" :key="item">
              <img class="run" :src="item" alt="">
            </el-carousel-item>
-         </el-carousel>-->
+         </el-carousel>
        </el-col>
-       <el-col class="right" :span="16" :xs="24">
+       <el-col class="right" :span="12" :xs="24">
           <h3 v-text="prod.itemName"></h3>
           <p v-text="prod.description"></p>
           <div class="info">
@@ -111,7 +111,7 @@ export default {
       this.$router.go(-1)
     }
   },
-  mounted () {
+  created () {
     this.CurProd()
   }
 }
