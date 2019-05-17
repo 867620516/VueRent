@@ -39,6 +39,21 @@
           <el-button class="button" @click.native="toregin" type="success" size="small" round>注册</el-button>
         </el-button-group>
         <div v-else>
+          <!--<div
+            type="success"
+            class="avatar-badge-wrapper"
+            @click="toMessages"
+          >
+            <img
+              v-if="loginFlag"
+              style="width: 30px;height: 30px; margin-top: 16px;border-radius: 100%;"
+              :src="user.headimg"
+            />
+
+            <span v-if="unreadMsgCount > 0" class="msg-num">{{
+                unreadMsgCount
+              }}</span>
+          </div>-->
           <el-dropdown>
             <!--<img class="avatar" src="../assets/getAvatar.jpg" alt="">-->
             <img v-if="icon" class="avatar" v-bind:src=icon alt="">
@@ -120,6 +135,10 @@
 <script>
 export default {
   methods: {
+    toMessages () {
+      console.log('to messages page')
+      this.$router.push({ path: '/page/messages' })
+    },
     // 给用户一点提示
     handleSelect (key) {
       if (!this.user && (key === '/manger/my' || key === '/manger/send' || key === '/manger/history')) {
@@ -285,5 +304,14 @@ export default {
       }
     }
   }
-
+.msg-num {
+  position: absolute;
+  top: 9px;
+  right: -12px;
+  color: #fff;
+  background-color: #2db7f5;
+  border-radius: 50%;
+  padding: 2px 5px;
+  line-height: 1;
+}
 </style>
